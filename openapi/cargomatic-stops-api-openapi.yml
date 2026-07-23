@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  title: Cargomatic Public Authorization Stops API
+  description: '## Welcome to the Cargomatic API!
+
+    Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
+
+
+    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+  version: 3.0.0
+servers:
+- url: https://api-acceptance.cargomatic.com
+tags:
+- name: Stops
+  description: Endpoints for managing shipment stops
+paths:
+  /stops/complete:
+    post:
+      operationId: completeStop
+      summary: Mark a stop as complete
+      description: Marks a stop as "complete". The `stopId`, and `shipmentReference` is required for all shipment types. If the shipment is shorthaul, only admins can access this route and file data must also be provided. If the shipment is drayage, `chassis`, `trailerId`, and `containerId` may be required.
+      tags:
+      - Stops
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /stops/transition:
+    post:
+      operationId: arriveAtStop
+      summary: Mark a stop as "arrived"
+      description: 'Marks a stop as "arrived". `status`, `stopId`, and `shipmentReference` are required. The only acceptable value for `status` is `arrived` (see example request body). If `date` is not provided, the current time will be used as the arrival time.
+
+        Admins, shippers, carriers, and drivers are authorized to use this API endpoint.'
+      tags:
+      - Stops
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArriveAtStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArriveAtStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /stops/add:
+    post:
+      operationId: addStop
+      summary: Add additional stops to a shipment
+      description: '`shipmentReference` and at least one new stop are required. Each new stop must include `address`, `action`, `name`, `sequence`, `windowStart`, `windowEnd`, and other fields dependent on the type of shipment.
+
+        For US-based clients, the address must include street address, city, state, and zipcode. The `action` is either "pickup" or "delivery". The sequence number is sequence of the stop within the shipment. The `name` of the stop is the location name. `windowStart` is when the pickup/delivery window starts for that stop. `windowEnd` is when the pickup/delivery window ends for that stop.
+
+        If the shipment is shorthaul, the new stop must include load data and it must be indicated whether the cargo is a full truckload or not. If the shipment is drayage, the new stop must indicate whether the container is empty or not and location must be included.'
+      tags:
+      - Stops
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+components:
+  schemas:
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: arrived
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
+    CompleteStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            stopId:
+              type: string
+            status:
+              type: string
+              example: complete
+            locationName:
+              type: string
+            locationAddress:
+              type: string
+            windowStart:
+              type: string
+              example: '2021-06-02T15:54:29.728Z'
+            windowEnd:
+              type: string
+              example: '2021-07-02T15:54:29.728Z'
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            documents:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    AddStopRequest:
+      type: object
+      required:
+      - shipmentReference
+      - newStops
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        newStops:
+          type: array
+          items:
+            type: object
+            required:
+            - sequence
+            - address
+            - action
+            - name
+            - windowStart
+            - windowEnd
+            properties:
+              sequence:
+                type: number
+                example: 1
+              address:
+                type: string
+                example: 1550 Cota Ave, Long Beach, CA 90813, USA
+              action:
+                type: string
+                example: pickup
+              name:
+                type: string
+                example: Atlas Marine
+              windowStart:
+                type: string
+                example: '2023-01-01T21:00:00.000Z'
+              windowEnd:
+                type: string
+                example: '2024-01-01T21:00:00.000Z'
+              fullTruckload:
+                type: boolean
+                example: false
+              isEmptyContainer:
+                type: boolean
+                example: true
+              loads:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: pallets
+                    quantity:
+                      type: number
+                    width:
+                      type: number
+                    length:
+                      type: number
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    ArriveAtStopRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        stopId:
+          type: string
+        status:
+          type: string
+          example: arrived
+        meta:
+          type: object
+          properties:
+            date:
+              type: string
+              example: '2023-07-20T16:51:11.736Z'
+      required:
+      - shipmentReference
+      - stopId
+      - status
+    CompleteStopRequest:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: 5ca39c2a0cb793001366c012
+        shipmentReference:
+          type: string
+          example: ABC-123
+        meta:
+          type: object
+          properties:
+            chassis:
+              type: string
+            containerId:
+              type: string
+            trailerId:
+              type: string
+            date:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+      required:
+      - stopId
+      - shipmentReference
+    AddStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        shipment:
+          type: object
+          properties:
+            market:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: San Antonio
+                code:
+                  type: string
+                  example: SAT
+            _id:
+              type: string
+            shipment_id:
+              type: string
+              example: ABC-123
+            stops:
+              type: array
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: stopID123
+                  action:
+                    type: string
+                    example: deliver
+                  full_truckload:
+                    type: boolean
+                    example: false
+                  location:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 1234567890z9310
+                        address:
+                          type: string
+                          example: 211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA
+                        street:
+                          type: string
+                          example: 211 E. Ocean Blvd
+                        suite_or_apt:
+                          type: string
+                          example: Suite 350
+                        zipcode:
+                          type: string
+                          example: '90802'
+                        city:
+                          type: string
+                          example: Long Beach
+                        state:
+                          type: string
+                          example: CA
+                        lng:
+                          type: number
+                          example: -123.456789
+                        lat:
+                          type: number
+                          example: 37.1234567
+                  status:
+                    type: string
+                    example: unstarted
+                  shipment_type:
+                    type: string
+                    example: shorthaul
+                  sequence:
+                    type: number
+                    example: 2
+                  window_start:
+                    type: string
+                    example: 2023-07-24 23:30:00+00:00
+                  window_end:
+                    type: string
+                    example: 2023-07-24 23:30:00+00:00
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-amazon-apigateway-cors:
+  allowOrigins:
+  - '*'
+  allowCredentials: true
+  exposeHeaders:
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  maxAge: 3600
+  allowMethods:
+  - '*'
+  allowHeaders":
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  - Authorization

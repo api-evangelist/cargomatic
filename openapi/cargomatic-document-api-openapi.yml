@@ -1,0 +1,199 @@
+openapi: 3.0.0
+info:
+  title: Cargomatic Public Authorization Document API
+  description: '## Welcome to the Cargomatic API!
+
+    Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
+
+
+    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+  version: 3.0.0
+servers:
+- url: https://api-acceptance.cargomatic.com
+tags:
+- name: Document
+paths:
+  /create-documents:
+    post:
+      operationId: createDocuments
+      summary: endpoint for uploading documents
+      description: "` Use this endpoint to create 1 or multiple document records within our system and use the response to \n  upload the actual files to our secure s3 buckets\n` "
+      tags:
+      - Document
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadDocumentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadDocumentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /get-documents:
+    post:
+      operationId: getDocuments
+      summary: Retrive document on a specified entity
+      description: '` Use this endpoint to retrive document links and metadata attached to specific entities `'
+      tags:
+      - Document
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDocumentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+components:
+  schemas:
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    GetDocumentRequest:
+      type: object
+      properties:
+        entity:
+          type: string
+          example: shipment
+        entityId:
+          type: string
+          example: '123455678990'
+        referenceNumbers:
+          type: array
+          items:
+            type: string
+            example: REF_NUMBER
+        type:
+          type: string
+          example: proof_of_delivery
+    UploadDocumentRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          entity:
+            type: string
+            example: shipment
+          entityId:
+            type: string
+            example: '123455678990'
+          referenceNumbers:
+            type: array
+            items:
+              type: string
+              example: REF_NUMBER
+          type:
+            type: string
+            example: proof_of_delivery
+          name:
+            type: string
+            example: filename
+          contentType:
+            type: string
+            example: application/json
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    GetDocumentResponse:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 5
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Proof of Delivery
+              createdAt:
+                type: string
+                example: '2023-09-20T03:02:32.359Z'
+              signedUrl:
+                type: string
+                example: https://s3-url-link-to-file.com/bucket?metadata-info
+              type:
+                type: string
+                example: proof_of_delivery
+              status:
+                type: string
+                example: UPLOADED
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          originalFileName:
+            type: string
+            example: filename
+          presignedUrl:
+            type: string
+            example: https://s3-url.com?key-signed-metadata
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-amazon-apigateway-cors:
+  allowOrigins:
+  - '*'
+  allowCredentials: true
+  exposeHeaders:
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  maxAge: 3600
+  allowMethods:
+  - '*'
+  allowHeaders":
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  - Authorization

@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  title: Cargomatic Public Authorization Carrier API
+  description: '## Welcome to the Cargomatic API!
+
+    Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
+
+
+    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+  version: 3.0.0
+servers:
+- url: https://api-acceptance.cargomatic.com
+tags:
+- name: Carrier
+  description: Endpoints for Cargomatic Carriers and Drivers
+paths:
+  /shipments/appointment:
+    post:
+      operationId: updateAppointment
+      summary: Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.
+      tags:
+      - Carrier
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /shipments/accept:
+    post:
+      operationId: acceptShipment
+      summary: Accepts a Shipment
+      tags:
+      - Carrier
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcceptShipmentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /carrier/{carrierid}/driver:
+    post:
+      operationId: createDriver
+      summary: Creates a new Driver
+      tags:
+      - Carrier
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: carrierid
+        in: path
+        description: Id of the carrier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDriverRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDriverResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  /shipment/assign:
+    post:
+      operationId: assignDriver
+      summary: Assigna a Driver to a Shipment
+      tags:
+      - Carrier
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignDriverRequest'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignDriverResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+components:
+  schemas:
+    AcceptShipmentRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: foo
+    AssignDriverRequest:
+      type: object
+      properties:
+        offer_id:
+          type: string
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
+          type: string
+          example: 64ac71ddb111de5422ff31ac
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    UpdateShipmentRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28 19:00:00+00:00
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28 23:00:00+00:00
+        appointmentConfirmed:
+          type: boolean
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    AssignDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
+    CreateDriverRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: john
+        last_name:
+          type: string
+          example: doe
+        username:
+          type: string
+          example: fakedriver123
+        email:
+          type: string
+          example: fake@gmail.com
+        password:
+          type: string
+          example: TestDriver1234
+        cdl_number:
+          type: string
+          example: 33333333
+        receive_offers:
+          type: boolean
+        phone:
+          type: string
+          example: 5555555555
+        carrier:
+          type: string
+          example: Cargomatic (demo)
+    UpdateShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        stop:
+          type: object
+          properties:
+            stopId:
+              type: string
+              example: 64ac4a958bea65dbe619482b
+            status:
+              type: string
+              example: unstarted
+            locationName:
+              type: string
+              example: 21660 Copley
+            locationAddress:
+              type: string
+              example: 21660 Copley Dr Diamond Bar CA 91765 USA
+            windowStart:
+              type: string
+              format: date-time
+              example: 2022-07-14 19:00:00+00:00
+            windowEnd:
+              type: string
+              format: date-time
+              example: 2022-07-14 23:00:00+00:00
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            off_site:
+              type: boolean
+            sequence:
+              type: integer
+              format: int32
+              example: 2
+    AcceptShipmentResponse:
+      type: object
+      properties:
+        shipmentId:
+          type: string
+          example: foop
+        status:
+          type: string
+          example: created
+        carrierId:
+          type: string
+          example: 60b7a951c2b827f9f5179454
+        stops:
+          type: array
+          items:
+            type: object
+            properties:
+              stopId:
+                type: string
+                example: 60b7a951c2b827f9f517945c
+              status:
+                type: string
+                example: unstarted
+              locationName:
+                type: string
+                example: Cargomatic HQ
+              locationAddress:
+                type: string
+                example: 211 E. Ocean Blvd Long Beach CA 90802
+              windowStart:
+                type: string
+                format: date-time
+                example: 2021-06-02 15:52:49.258000+00:00
+              windowEnd:
+                type: string
+                format: date-time
+                example: 2021-06-02 19:52:49.258000+00:00
+              appointmentConfirmed:
+                type: boolean
+              complete:
+                type: boolean
+              missingDocs:
+                type: boolean
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-amazon-apigateway-cors:
+  allowOrigins:
+  - '*'
+  allowCredentials: true
+  exposeHeaders:
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  maxAge: 3600
+  allowMethods:
+  - '*'
+  allowHeaders":
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  - Authorization

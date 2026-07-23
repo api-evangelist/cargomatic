@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: Cargomatic Public Authorization API
+  description: '## Welcome to the Cargomatic API!
+
+    Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
+
+
+    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+  version: 3.0.0
+servers:
+- url: https://api-acceptance.cargomatic.com
+tags:
+- name: Authorization
+  description: Endpoints dealing with authenticating to the API
+paths:
+  /auth:
+    post:
+      operationId: auth
+      summary: Retrieves an access token.
+      description: This route returns an access `token` which is to be used for all subsequent requests in the Authorization header.
+      tags:
+      - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequestBody'
+      responses:
+        '200':
+          description: 'Status Code 200:  Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+components:
+  schemas:
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    AuthRequestBody:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      example:
+        username: Username
+        password: MyPassword
+      required:
+      - username
+      - password
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+      example:
+        success: true
+        token: '{token-value}'
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-amazon-apigateway-cors:
+  allowOrigins:
+  - '*'
+  allowCredentials: true
+  exposeHeaders:
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  maxAge: 3600
+  allowMethods:
+  - '*'
+  allowHeaders":
+  - x-apigateway-header
+  - x-amz-date
+  - content-type
+  - Authorization
