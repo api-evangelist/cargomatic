@@ -1,0 +1,57 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cargomatic-openapi-original.yml
+format: json
+envelope:
+  media_type: application/json
+  schema: '{ "message": string }'
+  note: >-
+    The Cargomatic Public API returns a flat JSON error envelope with a single human-readable `message`
+    field. It does NOT use RFC 9457 application/problem+json. Every non-2xx response across the API reuses
+    the same two response schemas (BadRequestResponse for 400, InternalServerErrorResponse for 500).
+problems:
+- status: 400
+  title: Bad Request
+  schema: BadRequestResponse
+  example_message: Invalid Request Body
+  remediation: >-
+    Validate the request body against the operation's requestBody schema (required fields, types) before
+    retrying. A valid bearer token is also required on all endpoints except POST /auth.
+  applies_to:
+  - createQuote
+  - createOrder
+  - createShipment
+  - listShipments
+  - shipmentStatus
+  - updateAppointment
+  - acceptShipment
+  - createDriver
+  - assignDriver
+  - completeStop
+  - arriveAtStop
+  - addStop
+  - createDocuments
+  - getDocuments
+  - auth
+- status: 500
+  title: Internal Server Error
+  schema: InternalServerErrorResponse
+  example_message: Internal Server Error
+  remediation: >-
+    Transient server-side failure. Retry with backoff; if persistent, contact apisupport@cargomatic.com.
+  applies_to:
+  - createQuote
+  - createOrder
+  - createShipment
+  - listShipments
+  - shipmentStatus
+  - updateAppointment
+  - acceptShipment
+  - createDriver
+  - assignDriver
+  - completeStop
+  - arriveAtStop
+  - addStop
+  - createDocuments
+  - getDocuments
+  - auth

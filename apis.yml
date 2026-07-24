@@ -1,24 +1,194 @@
 aid: cargomatic
 name: Cargomatic
-description: Cargomatic is a company surfaced as a portfolio company of canaan-partners, softbank-vision-fund
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: >-
+  Cargomatic is a technology-enabled marketplace for local freight and drayage that connects shippers
+  with a network of more than 35,000 professional truck drivers across the top 20 ports in the continental
+  United States. Its platform automates quoting, booking, dispatch, tracking, and document exchange for
+  drayage, intermodal, less-than-truckload (LTL), full-truckload (FTL), and white-glove final-mile
+  delivery. Cargomatic exposes a public REST API (the Cargomatic Public API) so shippers and carriers can
+  automate the same quoting, order-creation, shipment-status, stop-management, driver-assignment, and
+  document workflows available in the Cargomatic portal, authenticating with JWT bearer tokens issued from
+  an authentication endpoint. The company is headquartered in Long Beach, California and is backed by
+  Canaan Partners and the SoftBank Vision Fund.
 url: https://raw.githubusercontent.com/api-evangelist/cargomatic/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cargomatic.com/wp-content/uploads/2021/01/cargomatic-logo.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - canaan-partners
 - softbank-vision-fund
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enrichment-pipeline-found-public-api
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Logistics
+- Freight
+- Drayage
+- Transportation
+- Supply Chain
+- Shipping
+- Trucking
+- Marketplace
+- Intermodal
+apis:
+- aid: cargomatic:cargomatic-authorization-api
+  name: Cargomatic Authorization API
+  description: Endpoints dealing with authenticating to the API
+  humanURL: https://api-docs.cargomatic.com/#/
+  baseURL: https://api.cargomatic.com
+  tags:
+  - Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/cargomatic-authorization-api-openapi.yml
+  - type: DeveloperPortal
+    url: https://api-docs.cargomatic.com/#/
+  - type: Documentation
+    url: https://api-docs.cargomatic.com/#/
+  - type: APIReference
+    url: https://api-docs.cargomatic.com/#/
+- aid: cargomatic:cargomatic-carrier-api
+  name: Cargomatic Carrier API
+  description: Endpoints for Cargomatic Carriers and Drivers
+  humanURL: https://api-docs.cargomatic.com/#/
+  baseURL: https://api.cargomatic.com
+  tags:
+  - Carrier
+  properties:
+  - type: OpenAPI
+    url: openapi/cargomatic-carrier-api-openapi.yml
+  - type: DeveloperPortal
+    url: https://api-docs.cargomatic.com/#/
+  - type: Documentation
+    url: https://api-docs.cargomatic.com/#/
+  - type: APIReference
+    url: https://api-docs.cargomatic.com/#/
+- aid: cargomatic:cargomatic-document-api
+  name: Cargomatic Document API
+  description: The Document API from Cargomatic — 2 operation(s) for document.
+  humanURL: https://api-docs.cargomatic.com/#/
+  baseURL: https://api.cargomatic.com
+  tags:
+  - Document
+  properties:
+  - type: OpenAPI
+    url: openapi/cargomatic-document-api-openapi.yml
+  - type: DeveloperPortal
+    url: https://api-docs.cargomatic.com/#/
+  - type: Documentation
+    url: https://api-docs.cargomatic.com/#/
+  - type: APIReference
+    url: https://api-docs.cargomatic.com/#/
+- aid: cargomatic:cargomatic-shipper-api
+  name: Cargomatic Shipper API
+  description: Endpoints for Cargomatic Shippers
+  humanURL: https://api-docs.cargomatic.com/#/
+  baseURL: https://api.cargomatic.com
+  tags:
+  - Shipper
+  properties:
+  - type: OpenAPI
+    url: openapi/cargomatic-shipper-api-openapi.yml
+  - type: DeveloperPortal
+    url: https://api-docs.cargomatic.com/#/
+  - type: Documentation
+    url: https://api-docs.cargomatic.com/#/
+  - type: APIReference
+    url: https://api-docs.cargomatic.com/#/
+- aid: cargomatic:cargomatic-stops-api
+  name: Cargomatic Stops API
+  description: Endpoints for managing shipment stops
+  humanURL: https://api-docs.cargomatic.com/#/
+  baseURL: https://api.cargomatic.com
+  tags:
+  - Stops
+  properties:
+  - type: OpenAPI
+    url: openapi/cargomatic-stops-api-openapi.yml
+  - type: DeveloperPortal
+    url: https://api-docs.cargomatic.com/#/
+  - type: Documentation
+    url: https://api-docs.cargomatic.com/#/
+  - type: APIReference
+    url: https://api-docs.cargomatic.com/#/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: Website
+  url: https://cargomatic.com/
+- type: DeveloperPortal
+  url: https://api-docs.cargomatic.com/#/
+- type: Documentation
+  url: https://api-docs.cargomatic.com/#/
+- type: APIReference
+  url: https://api-docs.cargomatic.com/#/
+- type: Support
+  url: https://cargomatic.com/support/
+- type: SupportContact
+  url: https://cargomatic.com/support/contact-us/
+- type: FAQ
+  url: https://cargomatic.com/support/faq/
+- type: Blog
+  url: https://cargomatic.com/blog/
+- type: GitHubOrganization
+  url: https://github.com/cargomatic
+- type: SignUp
+  url: https://cargomatic.com/sign-up/
+- type: TermsOfService
+  url: https://cargomatic.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://cargomatic.com/privacy-policy/
+- type: Careers
+  url: https://cargomatic.com/about/careers/
+- type: About
+  url: https://cargomatic.com/about/
+- type: SupportEmail
+  url: mailto:apisupport@cargomatic.com
+- type: OpenAPI
+  url: openapi/cargomatic-openapi-original.yml
+- type: Authentication
+  url: authentication/cargomatic-authentication.yml
+- type: ErrorCatalog
+  url: errors/cargomatic-problem-types.yml
+- type: Conventions
+  url: conventions/cargomatic-conventions.yml
+- type: Conformance
+  url: conformance/cargomatic-conformance.yml
+- type: DataModel
+  url: data-model/cargomatic-data-model.yml
+- type: Lifecycle
+  url: lifecycle/cargomatic-lifecycle.yml
+- type: Sandbox
+  url: sandbox/cargomatic-sandbox.yml
+- type: MCPServer
+  url: mcp/cargomatic-mcp.yml
+  name: Cargomatic MCP Server manifest (candidate)
+- type: LLMsTxt
+  url: llms/cargomatic-llms.txt
+- type: DomainSecurity
+  url: security/cargomatic-domain-security.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

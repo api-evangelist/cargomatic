@@ -1,0 +1,22 @@
+{
+  "provider": "cargomatic",
+  "sources": [
+    "cargomatic-authorization-api-openapi.yml",
+    "cargomatic-carrier-api-openapi.yml",
+    "cargomatic-document-api-openapi.yml",
+    "cargomatic-shipper-api-openapi.yml",
+    "cargomatic-stops-api-openapi.yml"
+  ],
+  "outputs": [
+    "cargomatic-authorization-api-openapi.yml",
+    "cargomatic-carrier-api-openapi.yml",
+    "cargomatic-document-api-openapi.yml",
+    "cargomatic-shipper-api-openapi.yml",
+    "cargomatic-stops-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

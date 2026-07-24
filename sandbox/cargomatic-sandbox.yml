@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: searched
+source: https://api-docs.cargomatic.com/openapi.yml
+summary: >-
+  Cargomatic provides a dedicated acceptance (sandbox) environment for the Public API. Sandbox
+  credentials are not self-service; they are provisioned on request by Cargomatic API support.
+environments:
+- name: acceptance
+  role: sandbox
+  base_url: https://api-acceptance.cargomatic.com
+  docs: https://api-docs-acceptance.cargomatic.com/#/
+- name: production
+  role: production
+  base_url: https://api.cargomatic.com
+credentials:
+  self_service: false
+  request_channel: apisupport@cargomatic.com
+  quote: >-
+    "Please reach out to apisupport@cargomatic.com for sandbox credentials to get started."
+    (from the OpenAPI info.description)
+  auth_flow: >-
+    POST /auth with the provisioned username and password returns a JWT bearer token used on all
+    subsequent requests.
+test_values:
+  note: >-
+    Cargomatic does not publish fixed magic/test identifiers (no test card numbers or synthetic IDs);
+    sandbox behavior is exercised against real sandbox credentials issued by API support. No test values
+    are fabricated here.

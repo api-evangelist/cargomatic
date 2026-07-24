@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: cargomatic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 16 05:24:06 2026 GMT
+  hsts: null
+- host: api-docs.cargomatic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 21 17:43:17 2026 GMT
+  hsts: false
+- host: api.cargomatic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 21 17:43:17 2026 GMT
+  hsts: null
+domains:
+- domain: cargomatic.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

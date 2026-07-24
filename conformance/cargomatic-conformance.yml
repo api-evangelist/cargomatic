@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cargomatic-openapi-original.yml
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi 3.0.0 document published at https://api-docs.cargomatic.com/openapi.yml
+- id: oauth2
+  conforms: false
+  evidence: security is http bearer (JWT) issued by a custom /auth endpoint, not OAuth2
+- id: oidc
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: error responses use a flat application/json { message } envelope, not application/problem+json
+- id: jwt
+  conforms: true
+  evidence: bearerAuth securityScheme declares bearerFormat JWT
+- id: rfc9110-http-semantics
+  conforms: true
+  evidence: standard HTTP methods and status codes (200/204/400/500)
+- id: pagination
+  conforms: false
+  evidence: list operations return arrays with no documented pagination parameters
+- id: idempotency
+  conforms: false
+  evidence: no idempotency-key header/parameter declared

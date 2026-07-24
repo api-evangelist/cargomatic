@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cargomatic-openapi-original.yml
+versioning:
+  scheme: none-in-path
+  spec_version: 3.0.0
+  note: >-
+    OpenAPI info.version is 3.0.0; no version segment appears in the API path structure. No formal
+    versioning or deprecation policy is published in the docs.
+environments:
+- name: acceptance
+  role: sandbox
+  base_url: https://api-acceptance.cargomatic.com
+  note: The server declared in the OpenAPI; sandbox credentials via apisupport@cargomatic.com.
+- name: production
+  role: production
+  base_url: https://api.cargomatic.com
+  note: Production host resolves and is fronted by AWS API Gateway (WAF-protected).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No deprecation policy or RFC 8594 Sunset/Deprecation header support documented.
+sla:
+  url: null
+status_page: null
+deprecated_operations: []

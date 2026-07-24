@@ -1,0 +1,45 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cargomatic-openapi-original.yml
+summary: >-
+  Cross-cutting request/response semantics for the Cargomatic Public API, derived from the published
+  OpenAPI 3.0 definition. Auth is a two-step flow: POST /auth with username/password returns a JWT which is
+  then sent as an Authorization: Bearer token on every other operation.
+authentication:
+  style: jwt-bearer
+  token_endpoint: POST /auth
+  credential: username + password (JSON body)
+  header: 'Authorization: Bearer <token>'
+  scheme: openapi/cargomatic-openapi-original.yml#/components/securitySchemes/bearerAuth
+  see: authentication/cargomatic-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    The published OpenAPI declares no idempotency-key header or parameter, and the docs describe no
+    idempotent-retry contract. Retries of write operations are not guaranteed safe.
+pagination:
+  supported: false
+  note: >-
+    listShipments (GET /shipments) and shipmentStatus (GET /shipments/status) return arrays with no
+    documented cursor/offset/limit parameters in the OpenAPI.
+versioning:
+  scheme: none-in-path
+  spec_version: 3.0.0
+  note: >-
+    The API base path carries no version segment; the OpenAPI info.version is 3.0.0. See
+    lifecycle/cargomatic-lifecycle.yml.
+request_id:
+  supported: unknown
+  note: No request-id / trace header documented in the OpenAPI.
+error_envelope:
+  media_type: application/json
+  shape: '{ "message": string }'
+  format: json (not RFC 9457)
+  see: errors/cargomatic-problem-types.yml
+rate_limit_signaling:
+  supported: unknown
+  note: No rate-limit headers documented in the OpenAPI.
+cors:
+  note: >-
+    Server declares x-amazon-apigateway-cors with allowOrigins "*" and allowCredentials true; API is
+    fronted by AWS API Gateway.

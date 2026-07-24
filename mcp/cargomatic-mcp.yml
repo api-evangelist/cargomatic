@@ -1,0 +1,58 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/cargomatic-openapi-original.yml
+note: >-
+  No official hosted or published Cargomatic MCP server was found (no registry listing, no docs mention).
+  This is a CANDIDATE tool list derived one-to-one from the published OpenAPI operations, to bootstrap an
+  MCP server should Cargomatic (or an integrator) build one.
+server:
+  name: cargomatic
+  transport: http
+  url: null
+tools:
+- name: auth
+  description: Retrieve a JWT access token from username and password.
+  source_operation: openapi/cargomatic-openapi-original.yml#auth
+- name: create_quote
+  description: Request a freight quote (shipper).
+  source_operation: openapi/cargomatic-openapi-original.yml#createQuote
+- name: create_order
+  description: Create an order (shipper).
+  source_operation: openapi/cargomatic-openapi-original.yml#createOrder
+- name: create_shipment
+  description: Create a shipment (shipper).
+  source_operation: openapi/cargomatic-openapi-original.yml#createShipment
+- name: list_shipments
+  description: List shipments (shipper).
+  source_operation: openapi/cargomatic-openapi-original.yml#listShipments
+- name: shipment_status
+  description: Get shipment status (shipper).
+  source_operation: openapi/cargomatic-openapi-original.yml#shipmentStatus
+- name: update_appointment
+  description: Update a shipment appointment (carrier).
+  source_operation: openapi/cargomatic-openapi-original.yml#updateAppointment
+- name: accept_shipment
+  description: Accept a shipment (carrier).
+  source_operation: openapi/cargomatic-openapi-original.yml#acceptShipment
+- name: create_driver
+  description: Create a driver under a carrier (carrier).
+  source_operation: openapi/cargomatic-openapi-original.yml#createDriver
+- name: assign_driver
+  description: Assign a driver to a shipment (carrier).
+  source_operation: openapi/cargomatic-openapi-original.yml#assignDriver
+- name: complete_stop
+  description: Mark a stop complete.
+  source_operation: openapi/cargomatic-openapi-original.yml#completeStop
+- name: arrive_at_stop
+  description: Transition a stop to arrived.
+  source_operation: openapi/cargomatic-openapi-original.yml#arriveAtStop
+- name: add_stop
+  description: Add a stop to a shipment.
+  source_operation: openapi/cargomatic-openapi-original.yml#addStop
+- name: create_documents
+  description: Upload documents for a shipment.
+  source_operation: openapi/cargomatic-openapi-original.yml#createDocuments
+- name: get_documents
+  description: Retrieve documents for a shipment.
+  source_operation: openapi/cargomatic-openapi-original.yml#getDocuments

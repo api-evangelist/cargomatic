@@ -1,0 +1,32 @@
+# Cargomatic
+
+> Cargomatic is a technology-enabled marketplace for local freight and drayage that connects shippers with a network of more than 35,000 professional truck drivers across the top 20 US ports. Its Public API automates quoting, booking, dispatch, shipment tracking, stop management, driver assignment, and document exchange. Authentication is JWT bearer: POST /auth with a username and password returns a token used on all other requests. Sandbox credentials are provisioned via apisupport@cargomatic.com.
+
+## APIs
+- [Cargomatic Public API — docs](https://api-docs.cargomatic.com/#/): Swagger UI for quoting, orders, shipments, stops, drivers, and documents.
+- [OpenAPI (openapi.yml)](https://api-docs.cargomatic.com/openapi.yml): OpenAPI 3.0 definition (16 operations).
+
+## Specs
+- [OpenAPI (repo copy)](openapi/cargomatic-openapi-original.yml)
+- [OpenAPI Overlay (AE enhancements)](overlays/cargomatic-public-api-overlay.yaml)
+
+## Artifacts
+- [Authentication profile](authentication/cargomatic-authentication.yml)
+- [API conventions](conventions/cargomatic-conventions.yml)
+- [Error catalog](errors/cargomatic-problem-types.yml)
+- [Data model / ERD](data-model/cargomatic-data-model.yml)
+- [Lifecycle](lifecycle/cargomatic-lifecycle.yml)
+- [Sandbox](sandbox/cargomatic-sandbox.yml)
+- [Conformance](conformance/cargomatic-conformance.yml)
+- [MCP server (candidate)](mcp/cargomatic-mcp.yml)
+- [Domain security](security/cargomatic-domain-security.yml)
+- [Agent skills index](skills/_index.yml)
+
+## Docs
+- [Developer portal / API reference](https://api-docs.cargomatic.com/#/)
+- [Support](https://cargomatic.com/support/)
+- [FAQ](https://cargomatic.com/support/faq/)
+- [Blog](https://cargomatic.com/blog/)
+- [Terms of Service](https://cargomatic.com/terms-of-service/)
+- [Privacy Policy](https://cargomatic.com/privacy-policy/)
+- [GitHub organization](https://github.com/cargomatic)

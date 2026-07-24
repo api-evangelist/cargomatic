@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Cargomatic Public API
+  version: 1.0.0
+extends: openapi/cargomatic-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profiled: '2026-07-18'
+    x-apievangelist-auth: jwt-bearer via POST /auth
+    x-apievangelist-error-format: json ({ message }) — not RFC 9457
+    x-apievangelist-idempotency: not-supported
+    x-apievangelist-pagination: not-supported
+- target: $.servers
+  update:
+  - url: https://api.cargomatic.com
+    description: Production (AWS API Gateway, WAF-protected)
+  - url: https://api-acceptance.cargomatic.com
+    description: Acceptance / sandbox (credentials via apisupport@cargomatic.com)

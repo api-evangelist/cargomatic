@@ -1,0 +1,61 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cargomatic-openapi-original.yml
+entities:
+- name: Quote
+  produced_by: createQuote
+  id_field: null
+  notable_fields: [full_truckload, shipment_type, weight, distance, total_cost, origin, destination, created_at]
+- name: Order
+  produced_by: createOrder
+  id_field: order_id
+  id_example: ORD-8246
+  notable_fields: [order_type, service_type, movement_type, reference_numbers]
+- name: Shipment
+  produced_by: [createShipment, listShipments, shipmentStatus]
+  id_field: shipmentId
+  id_example: 61f468826a139d5cfe58f0a2
+  reference_field: shipmentReference
+  reference_example: TES-1296
+  notable_fields: [status, stops]
+- name: Stop
+  produced_by: [addStop, arriveAtStop, completeStop]
+  id_field: stopId
+  id_example: 61f468806a139d5cfe58f098
+  notable_fields: [locationName]
+- name: Carrier
+  referenced_by: createDriver (path param carrierid)
+  id_field: carrierid
+- name: Driver
+  produced_by: [createDriver, assignDriver]
+- name: Document
+  produced_by: [createDocuments, getDocuments]
+relationships:
+- from: Order
+  to: Shipment
+  type: has_many
+  via: shipments
+- from: Shipment
+  to: Stop
+  type: has_many
+  via: stops
+- from: Shipment
+  to: Carrier
+  type: belongs_to
+  via: acceptShipment
+- from: Carrier
+  to: Driver
+  type: has_many
+  via: createDriver
+- from: Shipment
+  to: Driver
+  type: has_one
+  via: assignDriver
+- from: Shipment
+  to: Document
+  type: has_many
+  via: createDocuments
+- from: Quote
+  to: Order
+  type: precedes
+  via: createOrder

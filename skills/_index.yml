@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/cargomatic-openapi-original.yml
+skills:
+- file: cargomatic-quote-to-shipment.md
+  name: Quote, order, and create a shipment with Cargomatic
+  api: openapi/cargomatic-openapi-original.yml
+  operations: [auth, createQuote, createOrder, createShipment, shipmentStatus]
+- file: cargomatic-carrier-dispatch.md
+  name: Accept a shipment and dispatch a driver with Cargomatic
+  api: openapi/cargomatic-openapi-original.yml
+  operations: [auth, acceptShipment, updateAppointment, createDriver, assignDriver, addStop, arriveAtStop, completeStop]
