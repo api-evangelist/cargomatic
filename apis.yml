@@ -132,6 +132,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/cargomatic-public-api-overlay.yaml
 - type: Website
   url: https://cargomatic.com/
 - type: DeveloperPortal
@@ -163,7 +165,7 @@ common:
 - type: SupportEmail
   url: mailto:apisupport@cargomatic.com
 - type: OpenAPI
-  url: openapi/cargomatic-openapi-original.yml
+  url: openapi/_original/cargomatic-openapi-original.yml
 - type: Authentication
   url: authentication/cargomatic-authentication.yml
 - type: ErrorCatalog
