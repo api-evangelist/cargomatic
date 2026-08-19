@@ -2,10 +2,9 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: openapi/cargomatic-openapi-original.yml
-note: >-
-  No official hosted or published Cargomatic MCP server was found (no registry listing, no docs mention).
-  This is a CANDIDATE tool list derived one-to-one from the published OpenAPI operations, to bootstrap an
-  MCP server should Cargomatic (or an integrator) build one.
+note: No official hosted or published Cargomatic MCP server was found (no registry listing, no docs mention).
+  This is a CANDIDATE tool list derived one-to-one from the published OpenAPI operations, to bootstrap
+  an MCP server should Cargomatic (or an integrator) build one.
 server:
   name: cargomatic
   transport: http
@@ -56,3 +55,9 @@ tools:
 - name: get_documents
   description: Retrieve documents for a shipment.
   source_operation: openapi/cargomatic-openapi-original.yml#getDocuments
+deployment:
+  mode: none
+  verified: derived
+  tools: 15
+  checked: '2026-08-12'
+  source: catalog MCP census

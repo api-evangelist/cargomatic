@@ -1,0 +1,450 @@
+{
+  "item": [
+    {
+      "id": "212d5370-3585-4e46-aa50-0c243c0fafd5",
+      "name": "Document",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "36bea802-97b2-4149-bc2c-fcdc6d4b04d2",
+          "name": "endpoint for uploading documents",
+          "request": {
+            "name": "endpoint for uploading documents",
+            "description": {
+              "content": "` Use this endpoint to create 1 or multiple document records within our system and use the response to \n  upload the actual files to our secure s3 buckets\n` ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "create-documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"entity\": \"<string>\",\n    \"entityId\": \"<string>\",\n    \"referenceNumbers\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"contentType\": \"<string>\"\n  },\n  {\n    \"entity\": \"<string>\",\n    \"entityId\": \"<string>\",\n    \"referenceNumbers\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"contentType\": \"<string>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e63d6cce-4768-49a1-aa7c-e22de6ad4d30",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "create-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  },\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"originalFileName\": \"filename\",\n    \"presignedUrl\": \"https://s3-url.com?key-signed-metadata\"\n  },\n  {\n    \"originalFileName\": \"filename\",\n    \"presignedUrl\": \"https://s3-url.com?key-signed-metadata\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "819c269c-ac2f-43b6-acd1-b88c90c45ac7",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "create-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  },\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cf31e88-fa56-471d-b5e2-4bb8b50cfa4f",
+              "name": "Status Code 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "create-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  },\n  {\n    \"entity\": \"shipment\",\n    \"entityId\": \"123455678990\",\n    \"referenceNumbers\": [\n      \"REF_NUMBER\",\n      \"REF_NUMBER\"\n    ],\n    \"type\": \"proof_of_delivery\",\n    \"name\": \"filename\",\n    \"contentType\": \"application/json\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37ff500f-5dd4-496f-a1f4-ece6de117873",
+          "name": "Retrive document on a specified entity",
+          "request": {
+            "name": "Retrive document on a specified entity",
+            "description": {
+              "content": "` Use this endpoint to retrive document links and metadata attached to specific entities `",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get-documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entity\": \"<string>\",\n  \"entityId\": \"<string>\",\n  \"referenceNumbers\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bc82e98f-81ea-4b73-a9d6-aed8dd680f00",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"shipment\",\n  \"entityId\": \"123455678990\",\n  \"referenceNumbers\": [\n    \"REF_NUMBER\",\n    \"REF_NUMBER\"\n  ],\n  \"type\": \"proof_of_delivery\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 5,\n  \"documents\": [\n    {\n      \"name\": \"Proof of Delivery\",\n      \"createdAt\": \"2023-09-20T03:02:32.359Z\",\n      \"signedUrl\": \"https://s3-url-link-to-file.com/bucket?metadata-info\",\n      \"type\": \"proof_of_delivery\",\n      \"status\": \"UPLOADED\"\n    },\n    {\n      \"name\": \"Proof of Delivery\",\n      \"createdAt\": \"2023-09-20T03:02:32.359Z\",\n      \"signedUrl\": \"https://s3-url-link-to-file.com/bucket?metadata-info\",\n      \"type\": \"proof_of_delivery\",\n      \"status\": \"UPLOADED\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efca9daf-c51f-43f1-ab98-6408d3b0346d",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"shipment\",\n  \"entityId\": \"123455678990\",\n  \"referenceNumbers\": [\n    \"REF_NUMBER\",\n    \"REF_NUMBER\"\n  ],\n  \"type\": \"proof_of_delivery\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e680dc1a-210c-451f-a56c-2f37b95da13a",
+              "name": "Status Code 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entity\": \"shipment\",\n  \"entityId\": \"123455678990\",\n  \"referenceNumbers\": [\n    \"REF_NUMBER\",\n    \"REF_NUMBER\"\n  ],\n  \"type\": \"proof_of_delivery\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-acceptance.cargomatic.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d0e4865f-4261-48ba-a883-e851207f35b2",
+    "name": "Cargomatic Public Authorization Document API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Welcome to the Cargomatic API!\nOur quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.\n\nPlease reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "item": [
+    {
+      "id": "ff9e4630-73ab-4b68-9830-3252e39f6064",
+      "name": "Authorization",
+      "description": {
+        "content": "Endpoints dealing with authenticating to the API",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "da475758-9af4-4112-8114-6f4982068374",
+          "name": "Retrieves an access token.",
+          "request": {
+            "name": "Retrieves an access token.",
+            "description": {
+              "content": "This route returns an access `token` which is to be used for all subsequent requests in the Authorization header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b11eff76-ebc0-4fa1-b9c1-4e53dac8657e",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Username\",\n  \"password\": \"MyPassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"token\": \"{token-value}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f01494c8-7942-45a3-81cf-489ad2604138",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Username\",\n  \"password\": \"MyPassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ac4d743-4275-4b48-90db-22c1c169cc23",
+              "name": "StatusCode 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"Username\",\n  \"password\": \"MyPassword\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-acceptance.cargomatic.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9a8bba85-4536-4d2f-ad24-dad3f81fb687",
+    "name": "Cargomatic Public Authorization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Welcome to the Cargomatic API!\nOur quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.\n\nPlease reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.",
+      "type": "text/plain"
+    }
+  }
+}

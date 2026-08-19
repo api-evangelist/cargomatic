@@ -1,0 +1,670 @@
+{
+  "item": [
+    {
+      "id": "2aeab9af-a3c4-4daa-924c-68026b6af4ee",
+      "name": "Stops",
+      "description": {
+        "content": "Endpoints for managing shipment stops",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0bf571f5-0e0f-4071-ad20-dc067af4e160",
+          "name": "Mark a stop as complete",
+          "request": {
+            "name": "Mark a stop as complete",
+            "description": {
+              "content": "Marks a stop as \"complete\". The `stopId`, and `shipmentReference` is required for all shipment types. If the shipment is shorthaul, only admins can access this route and file data must also be provided. If the shipment is drayage, `chassis`, `trailerId`, and `containerId` may be required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stops",
+                "complete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stopId\": \"<string>\",\n  \"shipmentReference\": \"<string>\",\n  \"meta\": {\n    \"chassis\": \"<string>\",\n    \"containerId\": \"<string>\",\n    \"trailerId\": \"<string>\",\n    \"date\": \"<string>\",\n    \"files\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5a99e86-6072-4bbd-8847-528fb46f0b51",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stopId\": \"5ca39c2a0cb793001366c012\",\n  \"shipmentReference\": \"ABC-123\",\n  \"meta\": {\n    \"chassis\": \"<string>\",\n    \"containerId\": \"<string>\",\n    \"trailerId\": \"<string>\",\n    \"date\": \"<string>\",\n    \"files\": [\n      \"stop_info.txt\",\n      \"stop_info.txt\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"stopId\": \"string\",\n    \"status\": \"complete\",\n    \"locationName\": \"string\",\n    \"locationAddress\": \"string\",\n    \"windowStart\": \"2021-06-02T15:54:29.728Z\",\n    \"windowEnd\": \"2021-07-02T15:54:29.728Z\",\n    \"appointmentConfirmed\": true,\n    \"complete\": false,\n    \"missingDocs\": false,\n    \"documents\": [\n      \"stop_info.txt\",\n      \"stop_info.txt\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5fe5d342-9715-4251-8ee2-91d35353f314",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stopId\": \"5ca39c2a0cb793001366c012\",\n  \"shipmentReference\": \"ABC-123\",\n  \"meta\": {\n    \"chassis\": \"<string>\",\n    \"containerId\": \"<string>\",\n    \"trailerId\": \"<string>\",\n    \"date\": \"<string>\",\n    \"files\": [\n      \"stop_info.txt\",\n      \"stop_info.txt\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "507265ae-f6bb-48a8-b141-dac5067a08e5",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "complete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stopId\": \"5ca39c2a0cb793001366c012\",\n  \"shipmentReference\": \"ABC-123\",\n  \"meta\": {\n    \"chassis\": \"<string>\",\n    \"containerId\": \"<string>\",\n    \"trailerId\": \"<string>\",\n    \"date\": \"<string>\",\n    \"files\": [\n      \"stop_info.txt\",\n      \"stop_info.txt\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27581632-c081-4873-ac5c-ac31114534c4",
+          "name": "Mark a stop as \"arrived\"",
+          "request": {
+            "name": "Mark a stop as \"arrived\"",
+            "description": {
+              "content": "Marks a stop as \"arrived\". `status`, `stopId`, and `shipmentReference` are required. The only acceptable value for `status` is `arrived` (see example request body). If `date` is not provided, the current time will be used as the arrival time.\nAdmins, shippers, carriers, and drivers are authorized to use this API endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stops",
+                "transition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipmentReference\": \"<string>\",\n  \"stopId\": \"<string>\",\n  \"status\": \"<string>\",\n  \"meta\": {\n    \"date\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e8462302-81c1-45c6-a8dd-46032848e677",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "transition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"stopId\": \"<string>\",\n  \"status\": \"arrived\",\n  \"meta\": {\n    \"date\": \"2023-07-20T16:51:11.736Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": {\n    \"shipmentReference\": \"string\",\n    \"status\": \"arrived\",\n    \"stopId\": \"string\",\n    \"meta\": {\n      \"date\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ca940a4-c682-4d5d-811b-17d4e02104ac",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "transition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"stopId\": \"<string>\",\n  \"status\": \"arrived\",\n  \"meta\": {\n    \"date\": \"2023-07-20T16:51:11.736Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee950245-ccc4-4dd2-ad51-8264a58200aa",
+              "name": "Status Code 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "transition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"stopId\": \"<string>\",\n  \"status\": \"arrived\",\n  \"meta\": {\n    \"date\": \"2023-07-20T16:51:11.736Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "93a3aec1-9b31-449e-b354-0a6516d3cf3b",
+          "name": "Add additional stops to a shipment",
+          "request": {
+            "name": "Add additional stops to a shipment",
+            "description": {
+              "content": "`shipmentReference` and at least one new stop are required. Each new stop must include `address`, `action`, `name`, `sequence`, `windowStart`, `windowEnd`, and other fields dependent on the type of shipment.\nFor US-based clients, the address must include street address, city, state, and zipcode. The `action` is either \"pickup\" or \"delivery\". The sequence number is sequence of the stop within the shipment. The `name` of the stop is the location name. `windowStart` is when the pickup/delivery window starts for that stop. `windowEnd` is when the pickup/delivery window ends for that stop.\nIf the shipment is shorthaul, the new stop must include load data and it must be indicated whether the cargo is a full truckload or not. If the shipment is drayage, the new stop must indicate whether the container is empty or not and location must be included.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stops",
+                "add"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipmentReference\": \"<string>\",\n  \"newStops\": [\n    {\n      \"sequence\": \"<number>\",\n      \"address\": \"<string>\",\n      \"action\": \"<string>\",\n      \"name\": \"<string>\",\n      \"windowStart\": \"<string>\",\n      \"windowEnd\": \"<string>\",\n      \"fullTruckload\": \"<boolean>\",\n      \"isEmptyContainer\": \"<boolean>\",\n      \"loads\": [\n        {\n          \"type\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    },\n    {\n      \"sequence\": \"<number>\",\n      \"address\": \"<string>\",\n      \"action\": \"<string>\",\n      \"name\": \"<string>\",\n      \"windowStart\": \"<string>\",\n      \"windowEnd\": \"<string>\",\n      \"fullTruckload\": \"<boolean>\",\n      \"isEmptyContainer\": \"<boolean>\",\n      \"loads\": [\n        {\n          \"type\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f9d71e1e-295c-4833-bd1e-b3c362be5899",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"newStops\": [\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    },\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"shipment\": {\n    \"market\": {\n      \"name\": \"San Antonio\",\n      \"code\": \"SAT\"\n    },\n    \"_id\": \"string\",\n    \"shipment_id\": \"ABC-123\",\n    \"stops\": [\n      {\n        \"_id\": \"stopID123\",\n        \"action\": \"deliver\",\n        \"full_truckload\": false,\n        \"location\": [\n          {\n            \"id\": \"1234567890z9310\",\n            \"address\": \"211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA\",\n            \"street\": \"211 E. Ocean Blvd\",\n            \"suite_or_apt\": \"Suite 350\",\n            \"zipcode\": \"90802\",\n            \"city\": \"Long Beach\",\n            \"state\": \"CA\",\n            \"lng\": -123.456789,\n            \"lat\": 37.1234567\n          },\n          {\n            \"id\": \"1234567890z9310\",\n            \"address\": \"211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA\",\n            \"street\": \"211 E. Ocean Blvd\",\n            \"suite_or_apt\": \"Suite 350\",\n            \"zipcode\": \"90802\",\n            \"city\": \"Long Beach\",\n            \"state\": \"CA\",\n            \"lng\": -123.456789,\n            \"lat\": 37.1234567\n          }\n        ],\n        \"status\": \"unstarted\",\n        \"shipment_type\": \"shorthaul\",\n        \"sequence\": 2,\n        \"window_start\": \"2023-07-24 23:30:00+00:00\",\n        \"window_end\": \"2023-07-24 23:30:00+00:00\"\n      },\n      {\n        \"_id\": \"stopID123\",\n        \"action\": \"deliver\",\n        \"full_truckload\": false,\n        \"location\": [\n          {\n            \"id\": \"1234567890z9310\",\n            \"address\": \"211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA\",\n            \"street\": \"211 E. Ocean Blvd\",\n            \"suite_or_apt\": \"Suite 350\",\n            \"zipcode\": \"90802\",\n            \"city\": \"Long Beach\",\n            \"state\": \"CA\",\n            \"lng\": -123.456789,\n            \"lat\": 37.1234567\n          },\n          {\n            \"id\": \"1234567890z9310\",\n            \"address\": \"211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA\",\n            \"street\": \"211 E. Ocean Blvd\",\n            \"suite_or_apt\": \"Suite 350\",\n            \"zipcode\": \"90802\",\n            \"city\": \"Long Beach\",\n            \"state\": \"CA\",\n            \"lng\": -123.456789,\n            \"lat\": 37.1234567\n          }\n        ],\n        \"status\": \"unstarted\",\n        \"shipment_type\": \"shorthaul\",\n        \"sequence\": 2,\n        \"window_start\": \"2023-07-24 23:30:00+00:00\",\n        \"window_end\": \"2023-07-24 23:30:00+00:00\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2080727-7385-4f74-b025-224fc09536d5",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"newStops\": [\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    },\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b271c813-791a-4b58-9cd5-45ec8063ce47",
+              "name": "Status Code 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stops",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"ABC-123\",\n  \"newStops\": [\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    },\n    {\n      \"sequence\": 1,\n      \"address\": \"1550 Cota Ave, Long Beach, CA 90813, USA\",\n      \"action\": \"pickup\",\n      \"name\": \"Atlas Marine\",\n      \"windowStart\": \"2023-01-01T21:00:00.000Z\",\n      \"windowEnd\": \"2024-01-01T21:00:00.000Z\",\n      \"fullTruckload\": false,\n      \"isEmptyContainer\": true,\n      \"loads\": [\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        },\n        {\n          \"type\": \"pallets\",\n          \"quantity\": \"<number>\",\n          \"width\": \"<number>\",\n          \"length\": \"<number>\"\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-acceptance.cargomatic.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "56ef7a5a-7ebd-461b-a413-ceb8448e9084",
+    "name": "Cargomatic Public Authorization Stops API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Welcome to the Cargomatic API!\nOur quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.\n\nPlease reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.",
+      "type": "text/plain"
+    }
+  }
+}

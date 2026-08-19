@@ -1,0 +1,203 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cargomatic Public Authorization Shipper API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Shipper",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/quotes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a quote based on the factors provided in the request body.\nThis API endpoint is only accessible by Shippers and Admins!"
+        },
+        {
+          "info": {
+            "name": "Creates an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates an order based on the factors provided in the request body. This API endpoint can only be accessed by Shippers!"
+        },
+        {
+          "info": {
+            "name": "Lists all shipments with a pagination option",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-acceptance.cargomatic.com/shipments",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, indicates the page of results that you want returned. Default value is 1."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "\\# of results per page"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists all shipments with a pagination option"
+        },
+        {
+          "info": {
+            "name": "Create a shipment/offer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/shipments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a shipment based on the factors provided in the request body. This API endpoint can only be accessed by Admins and Shippers!\n`action` - add, update, cancel"
+        },
+        {
+          "info": {
+            "name": "Returns a shipment with status info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-acceptance.cargomatic.com/shipments/status",
+            "params": [
+              {
+                "name": "shipmentReference",
+                "value": "",
+                "type": "query",
+                "description": "Shipment Id"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a shipment with status info"
+        },
+        {
+          "info": {
+            "name": "Process loads",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/webhooks/loads",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Process loads"
+        },
+        {
+          "info": {
+            "name": "Mark a stop as complete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/stops/complete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Marks a stop as \"complete\". The `stopId`, and `shipmentReference` is required for all shipment types. If the shipment is shorthaul, only admins can access this route and file data must also be provided. If the shipment is drayage, `chassis`, `trailerId`, and `containerId` may be required."
+        },
+        {
+          "info": {
+            "name": "Mark a stop as \"arrived\"",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/stops/transition",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Marks a stop as \"arrived\". `status`, `stopId`, and `shipmentReference` are required. The only acceptable value for `status` is `arrived` (see example request body). If `date` is not provided, the current time will be used as the arrival time.\nAdmins, shippers, carriers, and drivers are authorized to use this API endpoint."
+        },
+        {
+          "info": {
+            "name": "Add additional stops to a shipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/stops/add",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "`shipmentReference` and at least one new stop are required. Each new stop must include `address`, `action`, `name`, `sequence`, `windowStart`, `windowEnd`, and other fields dependent on the type of shipment.\nFor US-based clients, the address must include street address, city, state, and zipcode. The `action` is either \"pickup\" or \"delivery\". The sequence number is sequence of the stop within the shipment. The `name` of the stop is the location name. `windowStart` is when the pickup/delivery wind"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cargomatic Public Authorization Document API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Document",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "endpoint for uploading documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/create-documents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "` Use this endpoint to create 1 or multiple document records within our system and use the response to \n  upload the actual files to our secure s3 buckets\n` "
+        },
+        {
+          "info": {
+            "name": "Retrive document on a specified entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/get-documents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "` Use this endpoint to retrive document links and metadata attached to specific entities `"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

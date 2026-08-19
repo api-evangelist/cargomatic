@@ -1,0 +1,908 @@
+{
+  "item": [
+    {
+      "id": "632e24ea-e0ee-4739-8c85-99e328426219",
+      "name": "Carrier",
+      "description": {
+        "content": "Endpoints for Cargomatic Carriers and Drivers",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "976e6baa-ac54-49a9-9a1b-fe83f27b03b4",
+          "name": "Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.",
+          "request": {
+            "name": "Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.",
+            "description": {},
+            "url": {
+              "path": [
+                "shipments",
+                "appointment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipmentReference\": \"<string>\",\n  \"stopId\": \"<string>\",\n  \"windowStart\": \"<dateTime>\",\n  \"windowEnd\": \"<dateTime>\",\n  \"appointmentConfirmed\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b19542f8-4e98-4946-b7ca-5254114b4d47",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "appointment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"61f468826a139d5cfe58f0a2\",\n  \"stopId\": \"61f468806a139d5cfe58f09d\",\n  \"windowStart\": \"2022-03-28 19:00:00+00:00\",\n  \"windowEnd\": \"2022-03-28 23:00:00+00:00\",\n  \"appointmentConfirmed\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"stop\": {\n    \"stopId\": \"64ac4a958bea65dbe619482b\",\n    \"status\": \"unstarted\",\n    \"locationName\": \"21660 Copley\",\n    \"locationAddress\": \"21660 Copley Dr Diamond Bar CA 91765 USA\",\n    \"windowStart\": \"2022-07-14 19:00:00+00:00\",\n    \"windowEnd\": \"2022-07-14 23:00:00+00:00\",\n    \"appointmentConfirmed\": true,\n    \"complete\": true,\n    \"missingDocs\": false,\n    \"off_site\": true,\n    \"sequence\": 2\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e965a3e1-6935-443b-b791-eec3519bbb4b",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "appointment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"61f468826a139d5cfe58f0a2\",\n  \"stopId\": \"61f468806a139d5cfe58f09d\",\n  \"windowStart\": \"2022-03-28 19:00:00+00:00\",\n  \"windowEnd\": \"2022-03-28 23:00:00+00:00\",\n  \"appointmentConfirmed\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88ba42e5-7bbc-46b8-849f-1443cc706f09",
+              "name": "StatusCode 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "appointment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"61f468826a139d5cfe58f0a2\",\n  \"stopId\": \"61f468806a139d5cfe58f09d\",\n  \"windowStart\": \"2022-03-28 19:00:00+00:00\",\n  \"windowEnd\": \"2022-03-28 23:00:00+00:00\",\n  \"appointmentConfirmed\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "442d971c-0ba8-4558-8179-8686b0149b4d",
+          "name": "Accepts a Shipment",
+          "request": {
+            "name": "Accepts a Shipment",
+            "description": {},
+            "url": {
+              "path": [
+                "shipments",
+                "accept"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipmentReference\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ba25b5b-79a0-4ee2-83b6-c665cf8a598e",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"foo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"shipmentId\": \"foop\",\n  \"status\": \"created\",\n  \"carrierId\": \"60b7a951c2b827f9f5179454\",\n  \"stops\": [\n    {\n      \"stopId\": \"60b7a951c2b827f9f517945c\",\n      \"status\": \"unstarted\",\n      \"locationName\": \"Cargomatic HQ\",\n      \"locationAddress\": \"211 E. Ocean Blvd Long Beach CA 90802\",\n      \"windowStart\": \"2021-06-02 15:52:49.258000+00:00\",\n      \"windowEnd\": \"2021-06-02 19:52:49.258000+00:00\",\n      \"appointmentConfirmed\": false,\n      \"complete\": true,\n      \"missingDocs\": false\n    },\n    {\n      \"stopId\": \"60b7a951c2b827f9f517945c\",\n      \"status\": \"unstarted\",\n      \"locationName\": \"Cargomatic HQ\",\n      \"locationAddress\": \"211 E. Ocean Blvd Long Beach CA 90802\",\n      \"windowStart\": \"2021-06-02 15:52:49.258000+00:00\",\n      \"windowEnd\": \"2021-06-02 19:52:49.258000+00:00\",\n      \"appointmentConfirmed\": true,\n      \"complete\": false,\n      \"missingDocs\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "797f86eb-48d9-4eff-8127-faa89f0bac42",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"foo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe60a38f-c9bd-41f1-ad1d-80ebc4cf25e9",
+              "name": "StatusCode 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipments",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shipmentReference\": \"foo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e230a4e-e81e-4904-9596-e602c7a0f736",
+          "name": "Creates a new Driver",
+          "request": {
+            "name": "Creates a new Driver",
+            "description": {},
+            "url": {
+              "path": [
+                "carrier",
+                ":carrierid",
+                "driver"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "carrierid",
+                  "description": "(Required) Id of the carrier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"<string>\",\n  \"last_name\": \"<string>\",\n  \"username\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"cdl_number\": \"<string>\",\n  \"receive_offers\": \"<boolean>\",\n  \"phone\": \"<string>\",\n  \"carrier\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ef3d55ec-0eed-4f70-9cea-151352907a1b",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carrier",
+                    ":carrierid",
+                    "driver"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "carrierid",
+                      "description": "(Required) Id of the carrier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"john\",\n  \"last_name\": \"doe\",\n  \"username\": \"fakedriver123\",\n  \"email\": \"fake@gmail.com\",\n  \"password\": \"TestDriver1234\",\n  \"cdl_number\": \"<string>\",\n  \"receive_offers\": \"<boolean>\",\n  \"phone\": \"<string>\",\n  \"carrier\": \"Cargomatic (demo)\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"data\": {\n    \"driverId\": \"64ac71ddb111de5422ff31ac\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ce779f3-f589-4fe8-82ec-f0ff3f6b0ee1",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carrier",
+                    ":carrierid",
+                    "driver"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "carrierid",
+                      "description": "(Required) Id of the carrier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"john\",\n  \"last_name\": \"doe\",\n  \"username\": \"fakedriver123\",\n  \"email\": \"fake@gmail.com\",\n  \"password\": \"TestDriver1234\",\n  \"cdl_number\": \"<string>\",\n  \"receive_offers\": \"<boolean>\",\n  \"phone\": \"<string>\",\n  \"carrier\": \"Cargomatic (demo)\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cba9959-db7c-4459-b0e2-92743cd9142f",
+              "name": "StatusCode 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "carrier",
+                    ":carrierid",
+                    "driver"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "carrierid",
+                      "description": "(Required) Id of the carrier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"first_name\": \"john\",\n  \"last_name\": \"doe\",\n  \"username\": \"fakedriver123\",\n  \"email\": \"fake@gmail.com\",\n  \"password\": \"TestDriver1234\",\n  \"cdl_number\": \"<string>\",\n  \"receive_offers\": \"<boolean>\",\n  \"phone\": \"<string>\",\n  \"carrier\": \"Cargomatic (demo)\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc9319ef-ba76-430b-8e8e-3ceeeb81ea55",
+          "name": "Assigna a Driver to a Shipment",
+          "request": {
+            "name": "Assigna a Driver to a Shipment",
+            "description": {},
+            "url": {
+              "path": [
+                "shipment",
+                "assign"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"offer_id\": \"<string>\",\n  \"driver_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "26dd7053-8fd7-4305-8f17-b7e4d9665a5b",
+              "name": "Status Code 200:  Successful Response - the request was successful!",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipment",
+                    "assign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"offer_id\": \"64ad7c876c1af2d3fd81230d\",\n  \"driver_id\": \"64ac71ddb111de5422ff31ac\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"jobs\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07ea3be3-4f0f-4a1b-af45-562be01abbd5",
+              "name": "Status Code 400: Bad Request Response - the request header and/or body is invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipment",
+                    "assign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"offer_id\": \"64ad7c876c1af2d3fd81230d\",\n  \"driver_id\": \"64ac71ddb111de5422ff31ac\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Request Body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e978db49-3864-4c17-907c-318a8216282f",
+              "name": "StatusCode 500: Internal Server Error Response - there's a problem with the Public API service",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shipment",
+                    "assign"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"offer_id\": \"64ad7c876c1af2d3fd81230d\",\n  \"driver_id\": \"64ac71ddb111de5422ff31ac\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal Server Error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-acceptance.cargomatic.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d3b68d50-6930-46df-9351-cd363386a588",
+    "name": "Cargomatic Public Authorization Carrier API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "## Welcome to the Cargomatic API!\nOur quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.\n\nPlease reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.",
+      "type": "text/plain"
+    }
+  }
+}

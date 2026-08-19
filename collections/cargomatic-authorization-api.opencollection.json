@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cargomatic Public Authorization API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authorization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieves an access token.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/auth",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This route returns an access `token` which is to be used for all subsequent requests in the Authorization header."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

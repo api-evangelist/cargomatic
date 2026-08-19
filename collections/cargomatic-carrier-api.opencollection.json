@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Cargomatic Public Authorization Carrier API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Carrier",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/shipments/appointment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`."
+        },
+        {
+          "info": {
+            "name": "Accepts a Shipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/shipments/accept",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Accepts a Shipment"
+        },
+        {
+          "info": {
+            "name": "Creates a new Driver",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/carrier/:carrierid/driver",
+            "params": [
+              {
+                "name": "carrierid",
+                "value": "",
+                "type": "path",
+                "description": "Id of the carrier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new Driver"
+        },
+        {
+          "info": {
+            "name": "Assigna a Driver to a Shipment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-acceptance.cargomatic.com/shipment/assign",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Assigna a Driver to a Shipment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
