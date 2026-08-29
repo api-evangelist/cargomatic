@@ -144,6 +144,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/cargomatic-capability-edges.yml
+  name: Cargomatic Business Capability Map
 - type: Overlay
   url: overlays/cargomatic-public-api-overlay.yaml
 - type: Website

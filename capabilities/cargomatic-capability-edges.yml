@@ -1,0 +1,25 @@
+slug: cargomatic
+provider: Cargomatic
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Carrier
+  spec_file: cargomatic-carrier-api-openapi.yml
+  capability_id: BC-2420.10
+  capability_id_l1: BC-2420
+  capability_name: Dispatch Management
+  confidence: 0.8
+  evidence: POST /shipment/assign assignDriver 'Assigna a Driver to a Shipment'; POST /carrier/{carrierid}/driver
+    createDriver; POST /shipments/accept acceptShipment; updateAppointment
+  reason: Carrier-side operations accept loads, register drivers and assign drivers to shipments with
+    appointment windows — this is assignment of loads/drivers to transport moves, i.e. dispatch management.
