@@ -98,6 +98,8 @@ apis:
   humanURL: https://api-docs.cargomatic.com/#/
   baseURL: https://api.cargomatic.com
   tags:
+  - Documents
+  tags_raw:
   - Document
   properties:
   - type: OpenAPI
@@ -114,6 +116,8 @@ apis:
   humanURL: https://api-docs.cargomatic.com/#/
   baseURL: https://api.cargomatic.com
   tags:
+  - Shippers
+  tags_raw:
   - Shipper
   properties:
   - type: OpenAPI
