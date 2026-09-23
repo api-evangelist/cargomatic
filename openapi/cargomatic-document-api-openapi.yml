@@ -1,12 +1,12 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Cargomatic Public Authorization Document API
+  title: Cargomatic Public Document API
   description: '## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
 
-    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+    Please reach out to apisupport@cargomatic.com for sandbox credentials to get started.'
   version: 3.0.0
 servers:
 - url: https://api-acceptance.cargomatic.com
@@ -17,7 +17,11 @@ paths:
     post:
       operationId: createDocuments
       summary: endpoint for uploading documents
-      description: "` Use this endpoint to create 1 or multiple document records within our system and use the response to \n  upload the actual files to our secure s3 buckets\n` "
+      description: '` Use this endpoint to create 1 or multiple document records within our system and use the response to
+
+        upload the actual files to our secure s3 buckets
+
+        `'
       tags:
       - Document
       security:
@@ -83,13 +87,17 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          originalFileName:
+            type: string
+            example: filename
+          presignedUrl:
+            type: string
+            example: https://s3-url.com?key-signed-metadata
     GetDocumentRequest:
       type: object
       properties:
@@ -107,6 +115,39 @@ components:
         type:
           type: string
           example: proof_of_delivery
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    GetDocumentResponse:
+      type: object
+      properties:
+        count:
+          type: number
+          example: 5
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Proof of Delivery
+              createdAt:
+                type: string
+                example: '2023-09-20T03:02:32.359Z'
+              signedUrl:
+                type: string
+                example: https://s3-url-link-to-file.com/bucket?metadata-info
+              type:
+                type: string
+                example: proof_of_delivery
+              status:
+                type: string
+                example: UPLOADED
     UploadDocumentRequest:
       type: array
       items:
@@ -139,43 +180,6 @@ components:
           type: string
       example:
         message: Internal Server Error
-    GetDocumentResponse:
-      type: object
-      properties:
-        count:
-          type: number
-          example: 5
-        documents:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: Proof of Delivery
-              createdAt:
-                type: string
-                example: '2023-09-20T03:02:32.359Z'
-              signedUrl:
-                type: string
-                example: https://s3-url-link-to-file.com/bucket?metadata-info
-              type:
-                type: string
-                example: proof_of_delivery
-              status:
-                type: string
-                example: UPLOADED
-    UploadDocumentResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          originalFileName:
-            type: string
-            example: filename
-          presignedUrl:
-            type: string
-            example: https://s3-url.com?key-signed-metadata
   securitySchemes:
     bearerAuth:
       type: http

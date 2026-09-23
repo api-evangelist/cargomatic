@@ -1,12 +1,12 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Cargomatic Public Authorization Carrier API
+  title: Cargomatic Public Carrier API
   description: '## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
 
-    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.'
+    Please reach out to apisupport@cargomatic.com for sandbox credentials to get started.'
   version: 3.0.0
 servers:
 - url: https://api-acceptance.cargomatic.com
@@ -17,7 +17,7 @@ paths:
   /shipments/appointment:
     post:
       operationId: updateAppointment
-      summary: Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.
+      summary: Updates an existing appointment with a new status, start time, and/or end time.
       tags:
       - Carrier
       security:
@@ -155,12 +155,6 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    AcceptShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: foo
     AssignDriverRequest:
       type: object
       properties:
@@ -170,128 +164,12 @@ components:
         driver_id:
           type: string
           example: 64ac71ddb111de5422ff31ac
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    UpdateShipmentRequest:
+    AcceptShipmentRequest:
       type: object
       properties:
         shipmentReference:
           type: string
-          example: 61f468826a139d5cfe58f0a2
-        stopId:
-          type: string
-          example: 61f468806a139d5cfe58f09d
-        windowStart:
-          type: string
-          format: date-time
-          example: 2022-03-28 19:00:00+00:00
-        windowEnd:
-          type: string
-          format: date-time
-          example: 2022-03-28 23:00:00+00:00
-        appointmentConfirmed:
-          type: boolean
-    CreateDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            driverId:
-              type: string
-              example: 64ac71ddb111de5422ff31ac
-    AssignDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        jobs:
-          type: array
-          items:
-            type: string
-    CreateDriverRequest:
-      type: object
-      properties:
-        first_name:
-          type: string
-          example: john
-        last_name:
-          type: string
-          example: doe
-        username:
-          type: string
-          example: fakedriver123
-        email:
-          type: string
-          example: fake@gmail.com
-        password:
-          type: string
-          example: TestDriver1234
-        cdl_number:
-          type: string
-          example: 33333333
-        receive_offers:
-          type: boolean
-        phone:
-          type: string
-          example: 5555555555
-        carrier:
-          type: string
-          example: Cargomatic (demo)
-    UpdateShipmentResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        stop:
-          type: object
-          properties:
-            stopId:
-              type: string
-              example: 64ac4a958bea65dbe619482b
-            status:
-              type: string
-              example: unstarted
-            locationName:
-              type: string
-              example: 21660 Copley
-            locationAddress:
-              type: string
-              example: 21660 Copley Dr Diamond Bar CA 91765 USA
-            windowStart:
-              type: string
-              format: date-time
-              example: 2022-07-14 19:00:00+00:00
-            windowEnd:
-              type: string
-              format: date-time
-              example: 2022-07-14 23:00:00+00:00
-            appointmentConfirmed:
-              type: boolean
-            complete:
-              type: boolean
-            missingDocs:
-              type: boolean
-            off_site:
-              type: boolean
-            sequence:
-              type: integer
-              format: int32
-              example: 2
+          example: foo
     AcceptShipmentResponse:
       type: object
       properties:
@@ -335,6 +213,128 @@ components:
                 type: boolean
               missingDocs:
                 type: boolean
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    CreateDriverRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: john
+        last_name:
+          type: string
+          example: doe
+        username:
+          type: string
+          example: fakedriver123
+        email:
+          type: string
+          example: fake@gmail.com
+        password:
+          type: string
+          example: TestDriver1234
+        cdl_number:
+          type: string
+          example: 33333333
+        receive_offers:
+          type: boolean
+        phone:
+          type: string
+          example: 5555555555
+        carrier:
+          type: string
+          example: Cargomatic (demo)
+    AssignDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
+    UpdateShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        stop:
+          type: object
+          properties:
+            stopId:
+              type: string
+              example: 64ac4a958bea65dbe619482b
+            status:
+              type: string
+              example: unstarted
+            locationName:
+              type: string
+              example: 21660 Copley
+            locationAddress:
+              type: string
+              example: 21660 Copley Dr Diamond Bar CA 91765 USA
+            windowStart:
+              type: string
+              format: date-time
+              example: 2022-07-14 19:00:00+00:00
+            windowEnd:
+              type: string
+              format: date-time
+              example: 2022-07-14 23:00:00+00:00
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            off_site:
+              type: boolean
+            sequence:
+              type: integer
+              format: int32
+              example: 2
+    UpdateShipmentRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28 19:00:00+00:00
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28 23:00:00+00:00
+        appointmentConfirmed:
+          type: boolean
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
   securitySchemes:
     bearerAuth:
       type: http

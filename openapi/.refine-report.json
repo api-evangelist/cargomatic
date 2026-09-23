@@ -1,11 +1,7 @@
 {
   "provider": "cargomatic",
   "sources": [
-    "cargomatic-authorization-api-openapi.yml",
-    "cargomatic-carrier-api-openapi.yml",
-    "cargomatic-document-api-openapi.yml",
-    "cargomatic-shipper-api-openapi.yml",
-    "cargomatic-stops-api-openapi.yml"
+    "_original/cargomatic-openapi-original.yml"
   ],
   "outputs": [
     "cargomatic-authorization-api-openapi.yml",
@@ -17,6 +13,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cargomatic-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "cargomatic-openapi-original.yml: declared missing tag: Document",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "cargomatic-authorization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cargomatic-carrier-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cargomatic-document-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cargomatic-shipper-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cargomatic-stops-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
