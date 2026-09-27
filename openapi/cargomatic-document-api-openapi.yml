@@ -115,6 +115,31 @@ components:
         type:
           type: string
           example: proof_of_delivery
+    UploadDocumentRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          entity:
+            type: string
+            example: shipment
+          entityId:
+            type: string
+            example: '123455678990'
+          referenceNumbers:
+            type: array
+            items:
+              type: string
+              example: REF_NUMBER
+          type:
+            type: string
+            example: proof_of_delivery
+          name:
+            type: string
+            example: filename
+          contentType:
+            type: string
+            example: application/json
     BadRequestResponse:
       type: object
       properties:
@@ -148,31 +173,6 @@ components:
               status:
                 type: string
                 example: UPLOADED
-    UploadDocumentRequest:
-      type: array
-      items:
-        type: object
-        properties:
-          entity:
-            type: string
-            example: shipment
-          entityId:
-            type: string
-            example: '123455678990'
-          referenceNumbers:
-            type: array
-            items:
-              type: string
-              example: REF_NUMBER
-          type:
-            type: string
-            example: proof_of_delivery
-          name:
-            type: string
-            example: filename
-          contentType:
-            type: string
-            example: application/json
     InternalServerErrorResponse:
       type: object
       properties:

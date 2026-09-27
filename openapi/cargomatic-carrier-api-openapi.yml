@@ -155,21 +155,98 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    AssignDriverRequest:
+    AssignDriverResponse:
       type: object
       properties:
-        offer_id:
-          type: string
-          example: 64ad7c876c1af2d3fd81230d
-        driver_id:
-          type: string
-          example: 64ac71ddb111de5422ff31ac
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
     AcceptShipmentRequest:
       type: object
       properties:
         shipmentReference:
           type: string
           example: foo
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    UpdateShipmentRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28 19:00:00+00:00
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28 23:00:00+00:00
+        appointmentConfirmed:
+          type: boolean
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    UpdateShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        stop:
+          type: object
+          properties:
+            stopId:
+              type: string
+              example: 64ac4a958bea65dbe619482b
+            status:
+              type: string
+              example: unstarted
+            locationName:
+              type: string
+              example: 21660 Copley
+            locationAddress:
+              type: string
+              example: 21660 Copley Dr Diamond Bar CA 91765 USA
+            windowStart:
+              type: string
+              format: date-time
+              example: 2022-07-14 19:00:00+00:00
+            windowEnd:
+              type: string
+              format: date-time
+              example: 2022-07-14 23:00:00+00:00
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            off_site:
+              type: boolean
+            sequence:
+              type: integer
+              format: int32
+              example: 2
     AcceptShipmentResponse:
       type: object
       properties:
@@ -213,24 +290,6 @@ components:
                 type: boolean
               missingDocs:
                 type: boolean
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
-    CreateDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            driverId:
-              type: string
-              example: 64ac71ddb111de5422ff31ac
     CreateDriverRequest:
       type: object
       properties:
@@ -260,74 +319,6 @@ components:
         carrier:
           type: string
           example: Cargomatic (demo)
-    AssignDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        jobs:
-          type: array
-          items:
-            type: string
-    UpdateShipmentResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        stop:
-          type: object
-          properties:
-            stopId:
-              type: string
-              example: 64ac4a958bea65dbe619482b
-            status:
-              type: string
-              example: unstarted
-            locationName:
-              type: string
-              example: 21660 Copley
-            locationAddress:
-              type: string
-              example: 21660 Copley Dr Diamond Bar CA 91765 USA
-            windowStart:
-              type: string
-              format: date-time
-              example: 2022-07-14 19:00:00+00:00
-            windowEnd:
-              type: string
-              format: date-time
-              example: 2022-07-14 23:00:00+00:00
-            appointmentConfirmed:
-              type: boolean
-            complete:
-              type: boolean
-            missingDocs:
-              type: boolean
-            off_site:
-              type: boolean
-            sequence:
-              type: integer
-              format: int32
-              example: 2
-    UpdateShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: 61f468826a139d5cfe58f0a2
-        stopId:
-          type: string
-          example: 61f468806a139d5cfe58f09d
-        windowStart:
-          type: string
-          format: date-time
-          example: 2022-03-28 19:00:00+00:00
-        windowEnd:
-          type: string
-          format: date-time
-          example: 2022-03-28 23:00:00+00:00
-        appointmentConfirmed:
-          type: boolean
     InternalServerErrorResponse:
       type: object
       properties:
@@ -335,6 +326,15 @@ components:
           type: string
       example:
         message: Internal Server Error
+    AssignDriverRequest:
+      type: object
+      properties:
+        offer_id:
+          type: string
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
+          type: string
+          example: 64ac71ddb111de5422ff31ac
   securitySchemes:
     bearerAuth:
       type: http

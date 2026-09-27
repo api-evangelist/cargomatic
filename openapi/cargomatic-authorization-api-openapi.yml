@@ -48,6 +48,23 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+      example:
+        success: true
+        token: '{token-value}'
     AuthRequestBody:
       type: object
       properties:
@@ -68,23 +85,6 @@ components:
           type: string
       example:
         message: Invalid Request Body
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    AuthResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        token:
-          type: string
-      example:
-        success: true
-        token: '{token-value}'
   securitySchemes:
     bearerAuth:
       type: http
