@@ -155,32 +155,6 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    AssignDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        jobs:
-          type: array
-          items:
-            type: string
-    AcceptShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: foo
-    CreateDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            driverId:
-              type: string
-              example: 64ac71ddb111de5422ff31ac
     UpdateShipmentRequest:
       type: object
       properties:
@@ -200,13 +174,62 @@ components:
           example: 2022-03-28 23:00:00+00:00
         appointmentConfirmed:
           type: boolean
-    BadRequestResponse:
+    AssignDriverRequest:
+      type: object
+      properties:
+        offer_id:
+          type: string
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
+          type: string
+          example: 64ac71ddb111de5422ff31ac
+    CreateDriverRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: john
+        last_name:
+          type: string
+          example: doe
+        username:
+          type: string
+          example: fakedriver123
+        email:
+          type: string
+          example: fake@gmail.com
+        password:
+          type: string
+          example: TestDriver1234
+        cdl_number:
+          type: string
+          example: 33333333
+        receive_offers:
+          type: boolean
+        phone:
+          type: string
+          example: 5555555555
+        carrier:
+          type: string
+          example: Cargomatic (demo)
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    InternalServerErrorResponse:
       type: object
       properties:
         message:
           type: string
       example:
-        message: Invalid Request Body
+        message: Internal Server Error
     UpdateShipmentResponse:
       type: object
       properties:
@@ -290,51 +313,28 @@ components:
                 type: boolean
               missingDocs:
                 type: boolean
-    CreateDriverRequest:
+    AssignDriverResponse:
       type: object
       properties:
-        first_name:
-          type: string
-          example: john
-        last_name:
-          type: string
-          example: doe
-        username:
-          type: string
-          example: fakedriver123
-        email:
-          type: string
-          example: fake@gmail.com
-        password:
-          type: string
-          example: TestDriver1234
-        cdl_number:
-          type: string
-          example: 33333333
-        receive_offers:
+        success:
           type: boolean
-        phone:
-          type: string
-          example: 5555555555
-        carrier:
-          type: string
-          example: Cargomatic (demo)
-    InternalServerErrorResponse:
+        jobs:
+          type: array
+          items:
+            type: string
+    BadRequestResponse:
       type: object
       properties:
         message:
           type: string
       example:
-        message: Internal Server Error
-    AssignDriverRequest:
+        message: Invalid Request Body
+    AcceptShipmentRequest:
       type: object
       properties:
-        offer_id:
+        shipmentReference:
           type: string
-          example: 64ad7c876c1af2d3fd81230d
-        driver_id:
-          type: string
-          example: 64ac71ddb111de5422ff31ac
+          example: foo
   securitySchemes:
     bearerAuth:
       type: http

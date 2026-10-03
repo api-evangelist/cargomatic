@@ -124,6 +124,175 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
+    ArriveAtStopRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        stopId:
+          type: string
+        status:
+          type: string
+          example: arrived
+        meta:
+          type: object
+          properties:
+            date:
+              type: string
+              example: '2023-07-20T16:51:11.736Z'
+      required:
+      - shipmentReference
+      - stopId
+      - status
+    CompleteStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            stopId:
+              type: string
+            status:
+              type: string
+              example: complete
+            locationName:
+              type: string
+            locationAddress:
+              type: string
+            windowStart:
+              type: string
+              example: '2021-06-02T15:54:29.728Z'
+            windowEnd:
+              type: string
+              example: '2021-07-02T15:54:29.728Z'
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            documents:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+    CompleteStopRequest:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: 5ca39c2a0cb793001366c012
+        shipmentReference:
+          type: string
+          example: ABC-123
+        meta:
+          type: object
+          properties:
+            chassis:
+              type: string
+            containerId:
+              type: string
+            trailerId:
+              type: string
+            date:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+      required:
+      - stopId
+      - shipmentReference
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    AddStopRequest:
+      type: object
+      required:
+      - shipmentReference
+      - newStops
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        newStops:
+          type: array
+          items:
+            type: object
+            required:
+            - sequence
+            - address
+            - action
+            - name
+            - windowStart
+            - windowEnd
+            properties:
+              sequence:
+                type: number
+                example: 1
+              address:
+                type: string
+                example: 1550 Cota Ave, Long Beach, CA 90813, USA
+              action:
+                type: string
+                example: pickup
+              name:
+                type: string
+                example: Atlas Marine
+              windowStart:
+                type: string
+                example: '2023-01-01T21:00:00.000Z'
+              windowEnd:
+                type: string
+                example: '2024-01-01T21:00:00.000Z'
+              fullTruckload:
+                type: boolean
+                example: false
+              isEmptyContainer:
+                type: boolean
+                example: true
+              loads:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: pallets
+                    quantity:
+                      type: number
+                    width:
+                      type: number
+                    length:
+                      type: number
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: arrived
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
     AddStopResponse:
       type: object
       properties:
@@ -207,99 +376,6 @@ components:
                   window_end:
                     type: string
                     example: 2023-07-24 23:30:00+00:00
-    CompleteStopResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            stopId:
-              type: string
-            status:
-              type: string
-              example: complete
-            locationName:
-              type: string
-            locationAddress:
-              type: string
-            windowStart:
-              type: string
-              example: '2021-06-02T15:54:29.728Z'
-            windowEnd:
-              type: string
-              example: '2021-07-02T15:54:29.728Z'
-            appointmentConfirmed:
-              type: boolean
-            complete:
-              type: boolean
-            missingDocs:
-              type: boolean
-            documents:
-              type: array
-              items:
-                type: string
-                example: stop_info.txt
-    AddStopRequest:
-      type: object
-      required:
-      - shipmentReference
-      - newStops
-      properties:
-        shipmentReference:
-          type: string
-          example: ABC-123
-        newStops:
-          type: array
-          items:
-            type: object
-            required:
-            - sequence
-            - address
-            - action
-            - name
-            - windowStart
-            - windowEnd
-            properties:
-              sequence:
-                type: number
-                example: 1
-              address:
-                type: string
-                example: 1550 Cota Ave, Long Beach, CA 90813, USA
-              action:
-                type: string
-                example: pickup
-              name:
-                type: string
-                example: Atlas Marine
-              windowStart:
-                type: string
-                example: '2023-01-01T21:00:00.000Z'
-              windowEnd:
-                type: string
-                example: '2024-01-01T21:00:00.000Z'
-              fullTruckload:
-                type: boolean
-                example: false
-              isEmptyContainer:
-                type: boolean
-                example: true
-              loads:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      example: pallets
-                    quantity:
-                      type: number
-                    width:
-                      type: number
-                    length:
-                      type: number
     BadRequestResponse:
       type: object
       properties:
@@ -307,82 +383,6 @@ components:
           type: string
       example:
         message: Invalid Request Body
-    ArriveAtStopRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: ABC-123
-        stopId:
-          type: string
-        status:
-          type: string
-          example: arrived
-        meta:
-          type: object
-          properties:
-            date:
-              type: string
-              example: '2023-07-20T16:51:11.736Z'
-      required:
-      - shipmentReference
-      - stopId
-      - status
-    ArriveAtStopResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            shipmentReference:
-              type: string
-            status:
-              type: string
-              example: arrived
-            stopId:
-              type: string
-            meta:
-              type: object
-              properties:
-                date:
-                  type: string
-    CompleteStopRequest:
-      type: object
-      properties:
-        stopId:
-          type: string
-          example: 5ca39c2a0cb793001366c012
-        shipmentReference:
-          type: string
-          example: ABC-123
-        meta:
-          type: object
-          properties:
-            chassis:
-              type: string
-            containerId:
-              type: string
-            trailerId:
-              type: string
-            date:
-              type: string
-            files:
-              type: array
-              items:
-                type: string
-                example: stop_info.txt
-      required:
-      - stopId
-      - shipmentReference
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
   securitySchemes:
     bearerAuth:
       type: http

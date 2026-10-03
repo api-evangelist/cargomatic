@@ -87,17 +87,6 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    UploadDocumentResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          originalFileName:
-            type: string
-            example: filename
-          presignedUrl:
-            type: string
-            example: https://s3-url.com?key-signed-metadata
     GetDocumentRequest:
       type: object
       properties:
@@ -115,38 +104,13 @@ components:
         type:
           type: string
           example: proof_of_delivery
-    UploadDocumentRequest:
-      type: array
-      items:
-        type: object
-        properties:
-          entity:
-            type: string
-            example: shipment
-          entityId:
-            type: string
-            example: '123455678990'
-          referenceNumbers:
-            type: array
-            items:
-              type: string
-              example: REF_NUMBER
-          type:
-            type: string
-            example: proof_of_delivery
-          name:
-            type: string
-            example: filename
-          contentType:
-            type: string
-            example: application/json
-    BadRequestResponse:
+    InternalServerErrorResponse:
       type: object
       properties:
         message:
           type: string
       example:
-        message: Invalid Request Body
+        message: Internal Server Error
     GetDocumentResponse:
       type: object
       properties:
@@ -173,13 +137,49 @@ components:
               status:
                 type: string
                 example: UPLOADED
-    InternalServerErrorResponse:
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          originalFileName:
+            type: string
+            example: filename
+          presignedUrl:
+            type: string
+            example: https://s3-url.com?key-signed-metadata
+    BadRequestResponse:
       type: object
       properties:
         message:
           type: string
       example:
-        message: Internal Server Error
+        message: Invalid Request Body
+    UploadDocumentRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          entity:
+            type: string
+            example: shipment
+          entityId:
+            type: string
+            example: '123455678990'
+          referenceNumbers:
+            type: array
+            items:
+              type: string
+              example: REF_NUMBER
+          type:
+            type: string
+            example: proof_of_delivery
+          name:
+            type: string
+            example: filename
+          contentType:
+            type: string
+            example: application/json
   securitySchemes:
     bearerAuth:
       type: http
