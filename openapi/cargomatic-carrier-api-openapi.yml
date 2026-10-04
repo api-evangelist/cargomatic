@@ -155,34 +155,6 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    UpdateShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: 61f468826a139d5cfe58f0a2
-        stopId:
-          type: string
-          example: 61f468806a139d5cfe58f09d
-        windowStart:
-          type: string
-          format: date-time
-          example: 2022-03-28 19:00:00+00:00
-        windowEnd:
-          type: string
-          format: date-time
-          example: 2022-03-28 23:00:00+00:00
-        appointmentConfirmed:
-          type: boolean
-    AssignDriverRequest:
-      type: object
-      properties:
-        offer_id:
-          type: string
-          example: 64ad7c876c1af2d3fd81230d
-        driver_id:
-          type: string
-          example: 64ac71ddb111de5422ff31ac
     CreateDriverRequest:
       type: object
       properties:
@@ -212,17 +184,19 @@ components:
         carrier:
           type: string
           example: Cargomatic (demo)
-    CreateDriverResponse:
+    AcceptShipmentRequest:
       type: object
       properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            driverId:
-              type: string
-              example: 64ac71ddb111de5422ff31ac
+        shipmentReference:
+          type: string
+          example: foo
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
     InternalServerErrorResponse:
       type: object
       properties:
@@ -270,6 +244,54 @@ components:
               type: integer
               format: int32
               example: 2
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    UpdateShipmentRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28 19:00:00+00:00
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28 23:00:00+00:00
+        appointmentConfirmed:
+          type: boolean
+    AssignDriverRequest:
+      type: object
+      properties:
+        offer_id:
+          type: string
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
+          type: string
+          example: 64ac71ddb111de5422ff31ac
+    AssignDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
     AcceptShipmentResponse:
       type: object
       properties:
@@ -313,28 +335,6 @@ components:
                 type: boolean
               missingDocs:
                 type: boolean
-    AssignDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        jobs:
-          type: array
-          items:
-            type: string
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
-    AcceptShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: foo
   securitySchemes:
     bearerAuth:
       type: http

@@ -55,13 +55,6 @@ components:
           type: string
       example:
         message: Invalid Request Body
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
     AuthResponse:
       type: object
       properties:
@@ -85,6 +78,13 @@ components:
       required:
       - username
       - password
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
   securitySchemes:
     bearerAuth:
       type: http

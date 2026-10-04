@@ -145,40 +145,6 @@ components:
       - shipmentReference
       - stopId
       - status
-    CompleteStopResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            stopId:
-              type: string
-            status:
-              type: string
-              example: complete
-            locationName:
-              type: string
-            locationAddress:
-              type: string
-            windowStart:
-              type: string
-              example: '2021-06-02T15:54:29.728Z'
-            windowEnd:
-              type: string
-              example: '2021-07-02T15:54:29.728Z'
-            appointmentConfirmed:
-              type: boolean
-            complete:
-              type: boolean
-            missingDocs:
-              type: boolean
-            documents:
-              type: array
-              items:
-                type: string
-                example: stop_info.txt
     CompleteStopRequest:
       type: object
       properties:
@@ -207,13 +173,6 @@ components:
       required:
       - stopId
       - shipmentReference
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
     AddStopRequest:
       type: object
       required:
@@ -273,26 +232,13 @@ components:
                       type: number
                     length:
                       type: number
-    ArriveAtStopResponse:
+    BadRequestResponse:
       type: object
       properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            shipmentReference:
-              type: string
-            status:
-              type: string
-              example: arrived
-            stopId:
-              type: string
-            meta:
-              type: object
-              properties:
-                date:
-                  type: string
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
     AddStopResponse:
       type: object
       properties:
@@ -376,13 +322,67 @@ components:
                   window_end:
                     type: string
                     example: 2023-07-24 23:30:00+00:00
-    BadRequestResponse:
+    InternalServerErrorResponse:
       type: object
       properties:
         message:
           type: string
       example:
-        message: Invalid Request Body
+        message: Internal Server Error
+    CompleteStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            stopId:
+              type: string
+            status:
+              type: string
+              example: complete
+            locationName:
+              type: string
+            locationAddress:
+              type: string
+            windowStart:
+              type: string
+              example: '2021-06-02T15:54:29.728Z'
+            windowEnd:
+              type: string
+              example: '2021-07-02T15:54:29.728Z'
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            documents:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: arrived
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
   securitySchemes:
     bearerAuth:
       type: http

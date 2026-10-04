@@ -104,6 +104,13 @@ components:
         type:
           type: string
           example: proof_of_delivery
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
     InternalServerErrorResponse:
       type: object
       properties:
@@ -148,13 +155,6 @@ components:
           presignedUrl:
             type: string
             example: https://s3-url.com?key-signed-metadata
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
     UploadDocumentRequest:
       type: array
       items:
