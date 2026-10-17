@@ -48,6 +48,13 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
     BadRequestResponse:
       type: object
       properties:
@@ -78,13 +85,6 @@ components:
       required:
       - username
       - password
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
   securitySchemes:
     bearerAuth:
       type: http

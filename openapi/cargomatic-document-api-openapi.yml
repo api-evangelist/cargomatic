@@ -104,20 +104,6 @@ components:
         type:
           type: string
           example: proof_of_delivery
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
     GetDocumentResponse:
       type: object
       properties:
@@ -144,17 +130,13 @@ components:
               status:
                 type: string
                 example: UPLOADED
-    UploadDocumentResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          originalFileName:
-            type: string
-            example: filename
-          presignedUrl:
-            type: string
-            example: https://s3-url.com?key-signed-metadata
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
     UploadDocumentRequest:
       type: array
       items:
@@ -180,6 +162,24 @@ components:
           contentType:
             type: string
             example: application/json
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          originalFileName:
+            type: string
+            example: filename
+          presignedUrl:
+            type: string
+            example: https://s3-url.com?key-signed-metadata
   securitySchemes:
     bearerAuth:
       type: http

@@ -319,34 +319,6 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    ArriveAtStopRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: ABC-123
-        stopId:
-          type: string
-        status:
-          type: string
-          example: arrived
-        meta:
-          type: object
-          properties:
-            date:
-              type: string
-              example: '2023-07-20T16:51:11.736Z'
-      required:
-      - shipmentReference
-      - stopId
-      - status
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
     AddStopResponse:
       type: object
       properties:
@@ -430,127 +402,61 @@ components:
                   window_end:
                     type: string
                     example: 2023-07-24 23:30:00+00:00
-    OrderRequestEquipments:
-      type: object
-      required:
-      - equipment_id
-      - _equipmentType
-      properties:
-        equipment_id:
-          type: string
-          example: AAAU1231234
-        _equipmentType:
-          type: string
-          example: container
-    OrderResponse:
+    OrderRequestShipmentsStagingStops:
       type: object
       properties:
-        order:
-          type: object
-          properties:
-            order_id:
-              type: string
-              example: ORD-8246
-            order_type:
-              type: string
-              example: import
-            reference_numbers:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: delivery_order
-                  value:
-                    type: string
-                    example: LGB0123456789
-            service_type:
-              type: string
-              example: live
-            movement_type:
-              type: string
-              example: delivery
-            order_received_date:
-              type: string
-              format: date-time
-              example: 2023-07-12 04:17:47.947000+00:00
-            created_at:
-              type: string
-              format: date-time
-              example: 2023-07-12 04:17:47.947000+00:00
-            equipments:
-              type: array
-              items:
-                type: object
-                properties:
-                  equipment_id:
-                    type: string
-                    example: AAAU1231234
-                  equipment_type:
-                    type: string
-                    example: container
-                  type:
-                    type: string
-                    example: ISO High Cube
-                  size:
-                    type: string
-                    example: 40 ft
-                  status:
-                    type: string
-                    example: N/A
-            arriving:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: APMT
-                address:
-                  type: string
-                  example: 2500 Navy Way San Pedro CA 90731 USA
-            delivering:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: Cargomatic Inc.
-                address:
-                  type: string
-                  example: 211 E Ocean Blvd Long Beach CA 90802
-            hazmat_class:
-              type: string
-              example: N/A
-            hazmat_packaging_group:
-              type: string
-              example: N/A
-    CompleteStopRequest:
-      type: object
-      properties:
-        stopId:
+        sequence:
+          type: integer
+          format: int32
+          example: 1
+        action:
           type: string
-          example: 5ca39c2a0cb793001366c012
-        shipmentReference:
+          example: pickup
+        empty:
+          type: boolean
+        location:
+          $ref: '#/components/schemas/OrderRequestLocation'
+        window_start:
           type: string
-          example: ABC-123
-        meta:
-          type: object
-          properties:
-            chassis:
-              type: string
-            containerId:
-              type: string
-            trailerId:
-              type: string
-            date:
-              type: string
-            files:
-              type: array
-              items:
+          format: date-time
+          example: 2022-09-09 19:00:45.440000+00:00
+        window_end:
+          type: string
+          format: date-time
+          example: 2022-09-09 22:00:50.317000+00:00
+        equipments:
+          type: array
+          items:
+            type: object
+            properties:
+              equipment_id:
                 type: string
-                example: stop_info.txt
+                example: AAAU1231234
+              _equipmentType:
+                type: string
+                example: container
+    QuoteRequestStops:
+      type: object
       required:
-      - stopId
-      - shipmentReference
+      - action
+      - location
+      properties:
+        action:
+          type: string
+          example: pickup
+          description: Acceptable values for `action` are `pickup` and  `deliver`.
+        location:
+          type: object
+          required:
+          - name
+          - address
+          properties:
+            name:
+              type: string
+              example: Atlas Marine
+            address:
+              type: string
+              example: 1550 Cota Ave Long Beach CA 90813
     AddStopRequest:
       type: object
       required:
@@ -610,214 +516,41 @@ components:
                       type: number
                     length:
                       type: number
-    ShipmentResponse:
+    OrderRequestLocation:
+      type: object
+      required:
+      - name
+      - address
+      properties:
+        name:
+          type: string
+          example: APMT
+          description: Name of the location. Can be an internal identifier, name of the location (ex. LAX Terminal 7), etc.
+        address:
+          type: string
+          example: 2500 Navy Way San Pedro CA 90731
+          description: US-based addresses must include street address, suite (if applicable), state, and zip code.
+    ArriveAtStopRequest:
       type: object
       properties:
-        success:
-          type: boolean
-        shipments:
-          type: array
-          items:
-            type: object
-            properties:
-              shipmentId:
-                type: string
-                example: 61f468826a139d5cfe58f0a2
-              shipmentReference:
-                type: string
-                example: TES-1296
-              status:
-                type: string
-                example: in_progress
-              stops:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    stopId:
-                      type: string
-                      example: 61f468806a139d5cfe58f098
-                    locationName:
-                      type: string
-                      example: Walmart
-                    locationAddress:
-                      type: string
-                      example: 228 Main St Venice CA 90291 USA
-                    windowStart:
-                      type: string
-                      format: date-time
-                      example: 2022-03-28 19:00:00+00:00
-                    windowEnd:
-                      type: string
-                      format: date-time
-                      example: 2022-03-28 23:00:00+00:00
-                    appointmentConfirmed:
-                      type: boolean
-                    complete:
-                      type: boolean
-                    off_site:
-                      type: boolean
-                    sequence:
-                      type: integer
-                      format: int32
-                      example: 2
-              carrierId:
-                type: string
-                example: 5eab53242668e30019713c87
-              driver:
-                type: object
-                properties:
-                  _id:
-                    type: string
-                    example: 5c7df5fd5b65270029523f74
-                  _type:
-                    type: string
-                    example: Driver
-                  first_name:
-                    type: string
-                    example: testGPSDriverFirst
-                  last_name:
-                    type: string
-                    example: testGPSDriverLast 1
-              distance_in_miles:
-                type: string
-                format: nullable
-    QuoteResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        quote:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        stopId:
+          type: string
+        status:
+          type: string
+          example: arrived
+        meta:
           type: object
           properties:
-            full_truckload:
-              type: boolean
-            shipment_type:
+            date:
               type: string
-              example: shorthaul
-            weight:
-              type: integer
-              format: int32
-              example: 4000
-            distance:
-              type: integer
-              format: int32
-              example: 4276
-            courier:
-              type: boolean
-            created_at:
-              type: string
-              format: date-time
-              example: 2023-07-12 03:41:08.784000+00:00
-            total_cost:
-              type: string
-              example: 190.85
-            origin:
-              type: object
-              properties:
-                address:
-                  type: string
-                  example: 1550 Cota Ave Long Beach CA 90813 USA
-                coords:
-                  type: array
-                  items:
-                    type: number
-                    example: -118.2162816
-                name:
-                  type: string
-                  example: Atlas Marine
-            destination:
-              type: object
-              properties:
-                address:
-                  type: string
-                  example: 211 E Ocean Blvd Long Beach CA 90802
-                coords:
-                  type: array
-                  items:
-                    type: number
-                    example: -118.19072819999997
-                name:
-                  type: string
-                  example: Cargomatic
-            loads:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    example: pallets
-                  dimensional_units:
-                    type: string
-                    example: in
-                  quantity:
-                    type: integer
-                    format: int32
-                    example: 3
-                  width:
-                    type: integer
-                    format: int32
-                    example: 40
-                  height:
-                    type: integer
-                    format: int32
-                    example: 60
-                  length:
-                    type: integer
-                    format: int32
-                    example: 48
-                  weight:
-                    type: integer
-                    format: int32
-                    example: 4000
-                  spaces:
-                    type: integer
-                    format: int32
-                    example: 3
-                  weight_units:
-                    type: string
-                    example: lb
-                  _id:
-                    type: string
-                    example: 64ae20d4814c928bbafbeade
-            quote_id:
-              type: string
-              example: BAD-QT-1796
-            expiration_date:
-              type: string
-              format: date-time
-              example: 2023-07-19 03:41:08+00:00
-            receivables:
-              type: array
-              items:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Residential
-                  value:
-                    type: integer
-                    format: int32
-                    example: 35
-                  timestamp:
-                    type: string
-                    format: date-time
-                    example: 2023-07-12 03:41:06.029000+00:00
-            shipper:
-              type: string
-              example: badri.shipper@cargomatic.com
-    OrderRequestShipmentsStaging:
-      type: object
-      properties:
-        weight:
-          type: integer
-          format: int32
-          example: 35000
-        stops:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderRequestShipmentsStagingStops'
+              example: '2023-07-20T16:51:11.736Z'
+      required:
+      - shipmentReference
+      - stopId
+      - status
     OrderRequest:
       type: object
       required:
@@ -921,47 +654,6 @@ components:
         vessel_or_rail:
           type: string
           example: ELEONORA
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    CompleteStopResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            stopId:
-              type: string
-            status:
-              type: string
-              example: complete
-            locationName:
-              type: string
-            locationAddress:
-              type: string
-            windowStart:
-              type: string
-              example: '2021-06-02T15:54:29.728Z'
-            windowEnd:
-              type: string
-              example: '2021-07-02T15:54:29.728Z'
-            appointmentConfirmed:
-              type: boolean
-            complete:
-              type: boolean
-            missingDocs:
-              type: boolean
-            documents:
-              type: array
-              items:
-                type: string
-                example: stop_info.txt
     OfferResponse:
       type: object
       properties:
@@ -1118,101 +810,58 @@ components:
             notes:
               type: string
               example: These are my notes!
-    OrderRequestLocation:
+    CompleteStopResponse:
       type: object
-      required:
-      - name
-      - address
       properties:
-        name:
-          type: string
-          example: APMT
-          description: Name of the location. Can be an internal identifier, name of the location (ex. LAX Terminal 7), etc.
-        address:
-          type: string
-          example: 2500 Navy Way San Pedro CA 90731
-          description: US-based addresses must include street address, suite (if applicable), state, and zip code.
-    QuoteRequestStops:
-      type: object
-      required:
-      - action
-      - location
-      properties:
-        action:
-          type: string
-          example: pickup
-          description: Acceptable values for `action` are `pickup` and  `deliver`.
-        location:
+        success:
+          type: boolean
+        data:
           type: object
-          required:
-          - name
-          - address
           properties:
-            name:
+            stopId:
               type: string
-              example: Atlas Marine
-            address:
+            status:
               type: string
-              example: 1550 Cota Ave Long Beach CA 90813
-    QuoteRequestLoads:
+              example: complete
+            locationName:
+              type: string
+            locationAddress:
+              type: string
+            windowStart:
+              type: string
+              example: '2021-06-02T15:54:29.728Z'
+            windowEnd:
+              type: string
+              example: '2021-07-02T15:54:29.728Z'
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            documents:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+    BadRequestResponse:
       type: object
-      description: 'If `full_truckload` is `false`, `loads` data are required:  `loads` must contain at least one entry and the required data for each entry is `quantity`, `length`, `width`, `height`, and `weight`.'
-      required:
-      - quantity
-      - height
-      - length
-      - width
-      - dimensional_units
-      - weight_units
-      - type
       properties:
-        type:
+        message:
           type: string
-          example: pallets
-        quantity:
-          type: integer
-          format: int32
-          example: 1
-        length:
-          type: integer
-          format: int32
-          example: 48
-        width:
-          type: integer
-          format: int32
-          example: 40
-        height:
-          type: integer
-          format: int32
-          example: 60
+      example:
+        message: Invalid Request Body
+    OrderRequestShipmentsStaging:
+      type: object
+      properties:
         weight:
           type: integer
           format: int32
-          example: 0
-        weight_units:
-          type: string
-          example: lb
-          description: Default value is `lb`.
-        dimensional_units:
-          type: string
-          example: in
-          description: Default value is `in`.
-        languageCodeId:
-          type: string
-          example: en-us
-        distance_units:
-          type: string
-          example: mi
-        currency:
-          type: string
-          example: USD
-        temperature_units:
-          type: string
-          example: F
-        stackable:
-          type: boolean
-          example: false
-          description: Default value is `false`.
+          example: 35000
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRequestShipmentsStagingStops'
     QuoteRequest:
       type: object
       required:
@@ -1270,59 +919,231 @@ components:
         shipment_type:
           type: string
           example: shorthaul
-    ArriveAtStopResponse:
+    OrderRequestEquipments:
+      type: object
+      required:
+      - equipment_id
+      - _equipmentType
+      properties:
+        equipment_id:
+          type: string
+          example: AAAU1231234
+        _equipmentType:
+          type: string
+          example: container
+    QuoteResponse:
       type: object
       properties:
         success:
           type: boolean
-        data:
+        quote:
           type: object
           properties:
-            shipmentReference:
+            full_truckload:
+              type: boolean
+            shipment_type:
               type: string
-            status:
+              example: shorthaul
+            weight:
+              type: integer
+              format: int32
+              example: 4000
+            distance:
+              type: integer
+              format: int32
+              example: 4276
+            courier:
+              type: boolean
+            created_at:
               type: string
-              example: arrived
-            stopId:
+              format: date-time
+              example: 2023-07-12 03:41:08.784000+00:00
+            total_cost:
               type: string
-            meta:
+              example: 190.85
+            origin:
               type: object
               properties:
-                date:
+                address:
                   type: string
-    OrderRequestShipmentsStagingStops:
+                  example: 1550 Cota Ave Long Beach CA 90813 USA
+                coords:
+                  type: array
+                  items:
+                    type: number
+                    example: -118.2162816
+                name:
+                  type: string
+                  example: Atlas Marine
+            destination:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: 211 E Ocean Blvd Long Beach CA 90802
+                coords:
+                  type: array
+                  items:
+                    type: number
+                    example: -118.19072819999997
+                name:
+                  type: string
+                  example: Cargomatic
+            loads:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallets
+                  dimensional_units:
+                    type: string
+                    example: in
+                  quantity:
+                    type: integer
+                    format: int32
+                    example: 3
+                  width:
+                    type: integer
+                    format: int32
+                    example: 40
+                  height:
+                    type: integer
+                    format: int32
+                    example: 60
+                  length:
+                    type: integer
+                    format: int32
+                    example: 48
+                  weight:
+                    type: integer
+                    format: int32
+                    example: 4000
+                  spaces:
+                    type: integer
+                    format: int32
+                    example: 3
+                  weight_units:
+                    type: string
+                    example: lb
+                  _id:
+                    type: string
+                    example: 64ae20d4814c928bbafbeade
+            quote_id:
+              type: string
+              example: BAD-QT-1796
+            expiration_date:
+              type: string
+              format: date-time
+              example: 2023-07-19 03:41:08+00:00
+            receivables:
+              type: array
+              items:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Residential
+                  value:
+                    type: integer
+                    format: int32
+                    example: 35
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: 2023-07-12 03:41:06.029000+00:00
+            shipper:
+              type: string
+              example: badri.shipper@cargomatic.com
+    InternalServerErrorResponse:
       type: object
       properties:
-        sequence:
-          type: integer
-          format: int32
-          example: 1
-        action:
+        message:
           type: string
-          example: pickup
-        empty:
-          type: boolean
-        location:
-          $ref: '#/components/schemas/OrderRequestLocation'
-        window_start:
-          type: string
-          format: date-time
-          example: 2022-09-09 19:00:45.440000+00:00
-        window_end:
-          type: string
-          format: date-time
-          example: 2022-09-09 22:00:50.317000+00:00
-        equipments:
-          type: array
-          items:
-            type: object
-            properties:
-              equipment_id:
-                type: string
-                example: AAAU1231234
-              _equipmentType:
-                type: string
-                example: container
+      example:
+        message: Internal Server Error
+    OrderResponse:
+      type: object
+      properties:
+        order:
+          type: object
+          properties:
+            order_id:
+              type: string
+              example: ORD-8246
+            order_type:
+              type: string
+              example: import
+            reference_numbers:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: delivery_order
+                  value:
+                    type: string
+                    example: LGB0123456789
+            service_type:
+              type: string
+              example: live
+            movement_type:
+              type: string
+              example: delivery
+            order_received_date:
+              type: string
+              format: date-time
+              example: 2023-07-12 04:17:47.947000+00:00
+            created_at:
+              type: string
+              format: date-time
+              example: 2023-07-12 04:17:47.947000+00:00
+            equipments:
+              type: array
+              items:
+                type: object
+                properties:
+                  equipment_id:
+                    type: string
+                    example: AAAU1231234
+                  equipment_type:
+                    type: string
+                    example: container
+                  type:
+                    type: string
+                    example: ISO High Cube
+                  size:
+                    type: string
+                    example: 40 ft
+                  status:
+                    type: string
+                    example: N/A
+            arriving:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: APMT
+                address:
+                  type: string
+                  example: 2500 Navy Way San Pedro CA 90731 USA
+            delivering:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Cargomatic Inc.
+                address:
+                  type: string
+                  example: 211 E Ocean Blvd Long Beach CA 90802
+            hazmat_class:
+              type: string
+              example: N/A
+            hazmat_packaging_group:
+              type: string
+              example: N/A
     OfferRequest:
       type: object
       required:
@@ -1482,6 +1303,185 @@ components:
             notes:
               type: string
               example: These are my notes!
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: arrived
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
+    QuoteRequestLoads:
+      type: object
+      description: 'If `full_truckload` is `false`, `loads` data are required:  `loads` must contain at least one entry and the required data for each entry is `quantity`, `length`, `width`, `height`, and `weight`.'
+      required:
+      - quantity
+      - height
+      - length
+      - width
+      - dimensional_units
+      - weight_units
+      - type
+      properties:
+        type:
+          type: string
+          example: pallets
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+        length:
+          type: integer
+          format: int32
+          example: 48
+        width:
+          type: integer
+          format: int32
+          example: 40
+        height:
+          type: integer
+          format: int32
+          example: 60
+        weight:
+          type: integer
+          format: int32
+          example: 0
+        weight_units:
+          type: string
+          example: lb
+          description: Default value is `lb`.
+        dimensional_units:
+          type: string
+          example: in
+          description: Default value is `in`.
+        languageCodeId:
+          type: string
+          example: en-us
+        distance_units:
+          type: string
+          example: mi
+        currency:
+          type: string
+          example: USD
+        temperature_units:
+          type: string
+          example: F
+        stackable:
+          type: boolean
+          example: false
+          description: Default value is `false`.
+    CompleteStopRequest:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: 5ca39c2a0cb793001366c012
+        shipmentReference:
+          type: string
+          example: ABC-123
+        meta:
+          type: object
+          properties:
+            chassis:
+              type: string
+            containerId:
+              type: string
+            trailerId:
+              type: string
+            date:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+      required:
+      - stopId
+      - shipmentReference
+    ShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        shipments:
+          type: array
+          items:
+            type: object
+            properties:
+              shipmentId:
+                type: string
+                example: 61f468826a139d5cfe58f0a2
+              shipmentReference:
+                type: string
+                example: TES-1296
+              status:
+                type: string
+                example: in_progress
+              stops:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    stopId:
+                      type: string
+                      example: 61f468806a139d5cfe58f098
+                    locationName:
+                      type: string
+                      example: Walmart
+                    locationAddress:
+                      type: string
+                      example: 228 Main St Venice CA 90291 USA
+                    windowStart:
+                      type: string
+                      format: date-time
+                      example: 2022-03-28 19:00:00+00:00
+                    windowEnd:
+                      type: string
+                      format: date-time
+                      example: 2022-03-28 23:00:00+00:00
+                    appointmentConfirmed:
+                      type: boolean
+                    complete:
+                      type: boolean
+                    off_site:
+                      type: boolean
+                    sequence:
+                      type: integer
+                      format: int32
+                      example: 2
+              carrierId:
+                type: string
+                example: 5eab53242668e30019713c87
+              driver:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5c7df5fd5b65270029523f74
+                  _type:
+                    type: string
+                    example: Driver
+                  first_name:
+                    type: string
+                    example: testGPSDriverFirst
+                  last_name:
+                    type: string
+                    example: testGPSDriverLast 1
+              distance_in_miles:
+                type: string
+                format: nullable
   securitySchemes:
     bearerAuth:
       type: http
