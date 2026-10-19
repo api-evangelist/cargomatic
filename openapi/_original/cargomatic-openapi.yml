@@ -1,0 +1,2361 @@
+openapi: 3.0.0
+
+info:
+  title: 'Cargomatic Public API'
+  description: >-
+    ![Cargomatic](https://cargomaticprod.wpenginepowered.com/wp-content/uploads/2025/07/2020-Cargomatic-Logo-2.png)
+
+
+    ## Welcome to the Cargomatic API!
+
+    Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
+
+
+    Please reach out to [apisupport@cargomatic.com](apisupport@cargomatic.com) for sandbox credentials to get started.
+  version: 3.0.0
+
+x-amazon-apigateway-cors:
+  allowOrigins:
+    - "*"
+  allowCredentials: true
+  exposeHeaders:
+    - "x-apigateway-header"
+    - "x-amz-date"
+    - "content-type"
+  maxAge: 3600
+  allowMethods:
+    - "*"
+  allowHeaders":
+    - "x-apigateway-header"
+    - "x-amz-date"
+    - "content-type"
+    - "Authorization"
+
+servers:
+  - url: https://api-acceptance.cargomatic.com
+
+tags:
+  - name: Authorization
+    description: Endpoints dealing with authenticating to the API
+  - name: Shipper
+    description: Endpoints for Cargomatic Shippers
+  - name: Carrier
+    description: Endpoints for Cargomatic Carriers and Drivers
+  - name: Stops
+    description: Endpoints for managing shipment stops
+  - name: Document
+    description: Endpoints for creating and retrieving documents attached to an entity
+
+paths:
+  /auth:
+    post:
+      operationId: auth
+      summary: Retrieves an access token.
+      description: >-
+        This route returns an access `token` which is to be used for all subsequent requests in the Authorization header.
+      tags:
+        - Authorization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequestBody'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /quotes:
+    post:
+      operationId: createQuote
+      summary: Creates a quote
+      description: >-
+        Creates a quote based on the factors provided in the request body.
+
+        This API endpoint is only accessible by Shippers and Admins!
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /orders:
+    post:
+      operationId: createOrder
+      summary: Creates an order
+      description: >-
+        Creates an order based on the factors provided in the request body. This API endpoint can only be accessed by Shippers!
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /shipments:
+    post:
+      operationId: createShipment
+      summary: Create a shipment/offer
+      description: >-
+        Creates a shipment based on the factors provided in the request body. This API endpoint can only be accessed by Admins and Shippers!
+
+        `action` - add, update, cancel
+
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+    get:
+      operationId: listShipments
+      summary: Lists all shipments with a pagination option
+      description: >-
+        Returns a paginated list of shipments visible to the authenticated account. Use the `page` and `per_page` query parameters to page through results.
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number, indicates the page of results that you want returned. Default value is 1.
+          required: false
+          schema:
+            type: number
+        - name: per_page
+          in: query
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /shipments/status:
+    get:
+      operationId: shipmentStatus
+      summary: Returns a shipment with status info
+      description: >-
+        Returns the shipment identified by the `shipmentReference` query parameter, including its current status and the status of each of its stops.
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: shipmentReference
+          in: query
+          description: Shipment Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /webhooks/loads:
+    post:
+      operationId: processLoads
+      summary: Process loads
+      description: >-
+        Webhook endpoint that accepts an inbound load payload for processing. Returns `204 No Content` once the load has been accepted.
+      tags:
+        - Shipper
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json: { }
+      responses:
+        '204':
+          description: 'Status Code 204: No Content - the request was accepted and there is no response body'
+
+  /shipments/appointment:
+    post:
+      operationId: updateAppointment
+      summary: Updates an existing appointment with a new status, start time, and/or end time. Requires the client to send at least one of new `windowStart` time, new `windowEnd` time, or `appointmentConfirmed`.
+      tags:
+        - Carrier
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShipmentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /shipments/accept:
+    post:
+      operationId: acceptShipment
+      summary: Accepts a Shipment
+      description: >-
+        Accepts an offered shipment on behalf of the authenticated carrier. The `shipmentReference` of the shipment to accept is required.
+      tags:
+        - Carrier
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcceptShipmentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptShipmentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /carrier/{carrierId}/driver:
+    post:
+      operationId: createDriver
+      summary: Creates a new Driver
+      description: >-
+        Creates a new driver under the carrier identified by the `carrierId` path parameter.
+      tags:
+        - Carrier
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: carrierId
+          in: path
+          description: Id of the carrier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDriverRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDriverResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /shipment/assign:
+    put:
+      operationId: assignDriver
+      summary: Assigns a driver to a shipment
+      description: >-
+        Assigns a driver to an accepted offer. Both the `offer_id` and the `driver_id` are required.
+      tags:
+        - Carrier
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignDriverRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignDriverResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /stops/complete:
+    post:
+      operationId: completeStop
+      summary: Mark a stop as complete
+      description: >-
+        Marks a stop as "complete". The `stopId`, and `shipmentReference` is required for all shipment types. If the shipment is shorthaul, only admins can access this route and file data must also be provided. If the shipment is drayage, `chassis`, `trailerId`, and `containerId` may be required.
+      tags:
+        - Stops
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /stops/transition:
+    post:
+      operationId: arriveAtStop
+      summary: Mark a stop as "arrived"
+      description: >-
+        Marks a stop as "arrived". `status`, `stopId`, and `shipmentReference` are required. The only acceptable value for `status` is `arrived` (see example request body). If `date` is not provided, the current time will be used as the arrival time.
+
+        Admins, shippers, carriers, and drivers are authorized to use this API endpoint.
+      tags:
+        - Stops
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArriveAtStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArriveAtStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /stops/add:
+    post:
+      operationId: addStop
+      summary: Add additional stops to a shipment
+      description: >-
+        `shipmentReference` and at least one new stop are required. Each new stop must include `address`, `action`, `name`, `sequence`, `windowStart`, `windowEnd`, and other fields dependent on the type of shipment.
+
+        For US-based clients, the address must include street address, city, state, and zipcode. The `action` is either "pickup" or "delivery". The sequence number is sequence of the stop within the shipment. The `name` of the stop is the location name. `windowStart` is when the pickup/delivery window starts for that stop. `windowEnd` is when the pickup/delivery window ends for that stop.
+
+        If the shipment is shorthaul, the new stop must include load data and it must be indicated whether the cargo is a full truckload or not. If the shipment is drayage, the new stop must indicate whether the container is empty or not and location must be included.
+      tags:
+        - Stops
+        - Shipper
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddStopRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddStopResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /create-documents:
+    post:
+      operationId: createDocuments
+      summary: Uploads documents
+      description: >-
+        Use this endpoint to create one or more document records within our system. Use the presigned URLs returned in the response to upload the actual files to our secure S3 buckets.
+      tags:
+        - Document
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadDocumentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadDocumentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+  
+  /get-documents:
+    post:
+      operationId: getDocuments
+      summary: Retrieves documents for a specified entity
+      description: >-
+        Use this endpoint to retrieve document links and metadata attached to a specific entity.
+      tags:
+        - Document
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDocumentRequest'
+      responses:
+        '200':
+          description: 'Status Code 200: Successful Response - the request was successful!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDocumentResponse'
+        '400':
+          description: 'Status Code 400: Bad Request Response - the request header and/or body is invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '500':
+          description: "Status Code 500: Internal Server Error Response - there's a problem with the Public API service"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AuthRequestBody:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      example:
+        username: 'Username'
+        password: 'MyPassword'
+      required:
+        - username
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+      example:
+        success: true
+        token: '{token-value}'
+
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: 'Invalid Request Body'
+
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: 'Internal Server Error'
+
+    QuoteRequestLoads:
+      type: object
+      description: >-
+        If `full_truckload` is `false`, `loads` data are required: `loads` must contain at least one entry and the required data for each entry is `type`, `quantity`, `length`, `width`, `height`, and `weight`.
+      required:
+        - type
+        - quantity
+        - length
+        - width
+        - height
+        - weight
+      properties:
+        type:
+          type: string
+          example: pallets
+          description: Packaging type for the load, e.g. `pallets`, `boxes`, or `crates`.
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+          description: Number of units of this load.
+        length:
+          type: integer
+          format: int32
+          example: 48
+          description: Length of each unit, expressed in `dimensional_units`.
+        width:
+          type: integer
+          format: int32
+          example: 40
+          description: Width of each unit, expressed in `dimensional_units`.
+        height:
+          type: integer
+          format: int32
+          example: 60
+          description: Height of each unit, expressed in `dimensional_units`.
+        weight:
+          type: integer
+          format: int32
+          example: 0
+          description: Weight of the load, expressed in `weight_units`.
+        weight_units:
+          type: string
+          example: lb
+          description: Unit of measure for `weight`. Default value is `lb`.
+        dimensional_units:
+          type: string
+          example: in
+          description: Unit of measure for `length`, `width`, and `height`. Default value is `in`.
+        languageCodeId:
+          type: string
+          example: en-us
+          description: Locale code for the load, e.g. `en-us`.
+        distance_units:
+          type: string
+          example: mi
+          description: Unit of measure for distance. Default value is `mi`.
+        currency:
+          type: string
+          example: USD
+          description: ISO currency code for monetary values. Default value is `USD`.
+        temperature_units:
+          type: string
+          example: F
+          description: Unit of measure for temperature-controlled loads, e.g. `F` or `C`.
+        stackable:
+          type: boolean
+          example: false
+          description: Whether the load can be stacked. Default value is `false`.
+
+    QuoteRequestStops:
+      type: object
+      required:
+        - action
+        - location
+      properties:
+        action:
+          type: string
+          example: pickup
+          description: Acceptable values for `action` are `pickup` and  `deliver`.
+        location:
+          type: object
+          description: Where this stop takes place.
+          required:
+            - name
+            - address
+          properties:
+            name:
+              type: string
+              example: Atlas Marine
+              description: Name of the location.
+            address:
+              type: string
+              example: 1550 Cota Ave Long Beach CA 90813
+              description: Full address of the location. US-based addresses must include street, city, state, and zip code.
+
+    QuoteRequestPallets:
+      type: object
+      required:
+        - type
+        - quantity
+        - length
+        - width
+        - height
+        - languageCodeId
+        - currency
+      properties:
+        type:
+          type: string
+          example: pallets
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+        length:
+          type: integer
+          format: int32
+          example: 48
+        width:
+          type: integer
+          format: int32
+          example: 40
+        height:
+          type: integer
+          format: int32
+          example: 60
+        weight:
+          type: integer
+          format: int32
+          example: 0
+        weight_units:
+          type: string
+          example: lb
+          description: Default value is `lb`.
+        dimensional_units:
+          type: string
+          example: in
+          description: Default value is `in`.
+        languageCodeId:
+          type: string
+          example: en-us
+        distance_units:
+          type: string
+          example: mi
+        currency:
+          type: string
+          example: USD
+        temperature_units:
+          type: string
+          example: F
+        stackable:
+          type: boolean
+          example: false
+          description: Default value is `false`.
+
+    QuoteRequest:
+      type: object
+      description: >-
+        Either `full_truckload` must be `true`, or `loads` must be provided. When `full_truckload` is `false`, `loads` is required.
+      required:
+        - full_truckload
+        - stops
+        - weight
+        - shipment_type
+      properties:
+        accessorials:
+          type: array
+          description: Optional accessorial services requested for the shipment.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: residential_delivery
+                description:  >-
+                  Allowed values for type are `cfs`, `hazmat`, `liftgate_origin`, `liftgate_destination`, `residential_delivery`, `room_of_choice`, `white_glove`, `airport_pickup`, `tsa_certification`, `flatbed_truck`, `two_man` and `inside_delivery`.
+        courier:
+          type: boolean
+          description: Whether the quote is for a courier (small parcel) shipment.
+        distance:
+          type: integer
+          format: int32
+          example: 12583
+          description: Distance of the shipment, in `distance_units` (default miles). If omitted, it is calculated from the stops.
+        loads:
+          type: array
+          description: The loads being shipped. Required when `full_truckload` is `false`.
+          items:
+            type: object
+            $ref: '#/components/schemas/QuoteRequestLoads'
+        market:
+          type: string
+          example: SFO
+          description: The valid values for `market` are the three letter identifiers for the market, like LAX, SFO, ATL, etc.
+        stops:
+          type: array
+          description: Ordered list of pickup and delivery stops for the shipment.
+          items:
+            $ref: '#/components/schemas/QuoteRequestStops'
+        weight:
+          description: Total weight of the shipment, in `weight_units`.
+          type: integer
+          format: int32
+          example: 40000
+        weight_units:
+          description: Unit of measure for `weight`. Default unit is `lb`.
+          type: string
+          example: lb
+        shipper:
+          type: object
+          description: The shipper the quote is created on behalf of.
+          properties:
+            _id:
+              type: string
+              example: 62879ea006bfa2d915861ba6
+              description: Shipper ID.
+        full_truckload:
+          type: boolean
+          example: true
+          description: Whether the shipment occupies a full truckload. If `false`, `loads` is required.
+        shipment_type:
+          type: string
+          example: shorthaul
+          description: Type of shipment, e.g. `shorthaul` or `drayage`.
+
+    QuoteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        quote:
+          type: object
+          properties:
+            full_truckload:
+              type: boolean
+            shipment_type:
+              type: string
+              example: shorthaul
+            weight:
+              type: integer
+              format: int32
+              example: 4000
+            distance:
+              type: integer
+              format: int32
+              example: 4276
+            courier:
+              type: boolean
+            created_at:
+              type: string
+              format: date-time
+              example: 2023-07-12T03:41:08.784Z
+            total_cost:
+              type: string
+              example: 190.85
+            origin:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: 1550 Cota Ave Long Beach CA 90813 USA
+                coords:
+                  type: array
+                  items:
+                    type: number
+                    example: -118.2162816
+                name:
+                  type: string
+                  example: Atlas Marine
+            destination:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: 211 E Ocean Blvd Long Beach CA 90802
+                coords:
+                  type: array
+                  items:
+                    type: number
+                    example: -118.19072819999997
+                name:
+                  type: string
+                  example: Cargomatic
+            loads:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallets
+                  dimensional_units:
+                    type: string
+                    example: in
+                  quantity:
+                    type: integer
+                    format: int32
+                    example: 3
+                  width:
+                    type: integer
+                    format: int32
+                    example: 40
+                  height:
+                    type: integer
+                    format: int32
+                    example: 60
+                  length:
+                    type: integer
+                    format: int32
+                    example: 48
+                  weight:
+                    type: integer
+                    format: int32
+                    example: 4000
+                  spaces:
+                    type: integer
+                    format: int32
+                    example: 3
+                  weight_units:
+                    type: string
+                    example: lb
+                  _id:
+                    type: string
+                    example: 64ae20d4814c928bbafbeade
+            quote_id:
+              type: string
+              example: BAD-QT-1796
+            expiration_date:
+              type: string
+              format: date-time
+              example: 2023-07-19T03:41:08Z
+            receivables:
+              type: array
+              items:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Residential
+                  value:
+                    type: integer
+                    format: int32
+                    example: 35
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: 2023-07-12T03:41:06.029Z
+            shipper:
+              type: string
+              example: badri.shipper@cargomatic.com
+
+    OrderRequestLocation:
+      type: object
+      required:
+        - name
+        - address
+      properties:
+        name:
+          type: string
+          example: APMT
+          description: Name of the location. Can be an internal identifier, name of the location (ex. LAX Terminal 7), etc.
+        address:
+          type: string
+          example: 2500 Navy Way San Pedro CA 90731
+          description:  US-based addresses must include street address, suite (if applicable), state, and zip code.
+
+    OrderRequestEquipments:
+      type: object
+      required:
+        - equipment_id
+        - _equipmentType
+      properties:
+        equipment_id:
+          type: string
+          example: AAAU1231234
+          description: Identifier of the equipment, e.g. the container or trailer number.
+        _equipmentType:
+          type: string
+          example: container
+          description: Type of equipment, e.g. `container` or `chassis`.
+
+    OrderRequestShipmentsStagingStops:
+      type: object
+      properties:
+        sequence:
+          type: integer
+          format: int32
+          example: 1
+          description: Position of this stop within the shipment, starting at 1.
+        action:
+          type: string
+          example: pickup
+          description: Action performed at this stop, either `pickup` or `delivery`.
+        empty:
+          type: boolean
+          description: Whether the container is empty at this stop.
+        location:
+          $ref: '#/components/schemas/OrderRequestLocation'
+        window_start:
+          type: string
+          format: date-time
+          example: 2022-09-09T19:00:45.440Z
+          description: Start of the pickup/delivery window for this stop.
+        window_end:
+          type: string
+          format: date-time
+          example: 2022-09-09T22:00:50.317Z
+          description: End of the pickup/delivery window for this stop.
+        equipments:
+          type: array
+          description: Equipment associated with this stop.
+          items:
+            type: object
+            properties:
+              equipment_id:
+                type: string
+                example: AAAU1231234
+                description: Identifier of the equipment, e.g. the container or trailer number.
+              _equipmentType:
+                type: string
+                example: container
+                description: Type of equipment, e.g. `container` or `chassis`.
+
+    OrderRequestShipmentsStaging:
+      type: object
+      properties:
+        weight:
+          type: integer
+          format: int32
+          example: 35000
+          description: Total weight of this staged shipment, in pounds.
+        stops:
+          type: array
+          description: Ordered list of stops for this staged shipment.
+          items:
+            $ref: '#/components/schemas/OrderRequestShipmentsStagingStops'
+
+    OrderRequest:
+      type: object
+      required:
+        - arriving
+        - delivering
+        - master_bill_of_lading
+        - movement_type
+        - order_type
+        - originating
+        - reference_numbers
+        - service_type
+        - shipper
+      properties:
+        arriving:
+          allOf:
+            - $ref: '#/components/schemas/OrderRequestLocation'
+          description: Location where the freight arrives (e.g. the port or rail terminal).
+        contacts:
+          type: array
+          description: Contacts associated with the order.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Dispatch
+                description: Contact name.
+              phone:
+                type: string
+                example: 555-555-5555
+                description: Contact phone number.
+        delivering:
+          allOf:
+            - $ref: '#/components/schemas/OrderRequestLocation'
+          description: Final delivery location for the freight.
+        equipments:
+          type: array
+          description: Equipment (containers, chassis, etc.) associated with the order.
+          items:
+            $ref: '#/components/schemas/OrderRequestEquipments'
+        estimated_arrival:
+          type: string
+          example: 2022-09-08Z00:00.00Z
+          description: Estimated arrival date/time of the freight.
+        master_bill_of_lading:
+          type: string
+          example: ABCU12345678
+          description: Master Bill of Lading (MBL) number for the order.
+        mode:
+          type: string
+          enum:
+            - drayage
+            - intermodal
+          example: drayage
+          description: Transportation mode for the order.
+        movement_type:
+          type: string
+          enum:
+            - pickup
+            - delivery
+          example: delivery
+          description: Movement type of the order. One of `pickup` or `delivery`.
+        ocean_carrier_scac:
+          type: string
+          example: MAEU
+          description: The SCAC code for an Ocean Carrier. If the SCAC code is not a known Ocean Carrier SCAC, enter `Custom`.
+        custom_ocean_carrier_scac:
+          type: string
+          example: AAAAAA
+          description: This `custom_ocean_carrier_scac` is required when the value for `ocean_carrier_scac` is `Custom`.
+        order_type:
+          type: string
+          example: import
+          description: Valid entries for `order_type` are 'import', 'export', 'domestic', 'reposition'.
+        originating:
+          type: object
+          description: Origin location of the freight, e.g. the foreign port of lading.
+          properties:
+            name:
+              type: string
+              example: Port of Tianjin
+              description: Name of the origin location.
+            address:
+              type: string
+              example: XPMV+74M Binhai Tianjin China 300456
+              description: Full address of the origin location.
+        reference_numbers:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - value
+            description: "`name` is the identifier for the reference number that you use. `value` is the reference number. Examples are 'receipt' and 'invoice'. For example, if you want to use 'Invoice #002' as a reference, the name would be `invoice` and the `value` would be `002`."
+            properties:
+              name:
+                type: string
+                example: delivery_order
+              value:
+                type: string
+                example: LGB0123456789
+        service_type:
+          type: string
+          enum:
+            - live
+            - drop
+          example: live
+          description: How the freight is handled. One of `live` or `drop`.
+        shipper:
+          type: string
+          example: 63108dce37cc4180163047d9
+          description: '`shipper` is the shipper ID.'
+        shipments_staging:
+          type: array
+          description: Shipments staged from this order, each with its own stops and weight.
+          items:
+            $ref: '#/components/schemas/OrderRequestShipmentsStaging'
+        special_instructions:
+          type: string
+          example: Please deliver this freight!
+          description: Free-text instructions for handling the order.
+        railroads:
+          type: string
+          enum:
+            - BNSF
+            - CPKC
+          example: BNSF
+          description: Railroad handling the intermodal movement.
+        steamship_or_railroad:
+          type: string
+          example: BNSF
+          description: If there is no ocean carrier associated with this shipment, `steamship_or_railroad` is required.
+        total_weight:
+          type: integer
+          format: int32
+          example: 35000
+          description: Total weight of the order, in pounds.
+        train:
+          type: string
+          description: Name or identifier of the train carrying the freight.
+        vessel_or_rail:
+          type: string
+          example: ELEONORA
+          description: Name of the vessel or rail carrying the freight.
+
+    OrderResponse:
+      type: object
+      properties:
+        order:
+          type: object
+          description: The order that was created.
+          properties:
+            order_id:
+              type: string
+              example: ORD-8246
+              description: Cargomatic-assigned identifier for the order.
+            order_type:
+              type: string
+              example: import
+              description: Type of the order, e.g. `import`, `export`, `domestic`, or `reposition`.
+            reference_numbers:
+              type: array
+              description: Reference numbers associated with the order.
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: delivery_order
+                    description: Identifier for the reference number.
+                  value:
+                    type: string
+                    example: LGB0123456789
+                    description: Value of the reference number.
+            service_type:
+              type: string
+              enum:
+                - live
+                - drop
+              example: live
+              description: How the freight is handled. One of `live` or `drop`.
+            movement_type:
+              type: string
+              enum:
+                - pickup
+                - delivery
+              example: delivery
+              description: Movement type of the order. One of `pickup` or `delivery`.
+            mode:
+              type: string
+              enum:
+                - drayage
+                - intermodal
+              example: drayage
+              description: Transportation mode for the order.
+            railroads:
+              type: string
+              enum:
+                - BNSF
+                - CPKC
+              example: BNSF
+              description: Railroad handling the intermodal movement.
+            train:
+              type: string
+              description: Name or identifier of the train carrying the freight.
+            order_received_date:
+              type: string
+              format: date-time
+              example: 2023-07-12T04:17:47.947Z
+              description: When the order was received.
+            created_at:
+              type: string
+              format: date-time
+              example: 2023-07-12T04:17:47.947Z
+              description: When the order record was created.
+            equipments:
+              type: array
+              description: Equipment associated with the order.
+              items:
+                type: object
+                properties:
+                  equipment_id:
+                    type: string
+                    example: AAAU1231234
+                    description: Identifier of the equipment, e.g. the container or trailer number.
+                  equipment_type:
+                    type: string
+                    example: container
+                    description: Type of equipment, e.g. `container` or `chassis`.
+                  type:
+                    type: string
+                    example: ISO High Cube
+                    description: Specific equipment type/classification.
+                  size:
+                    type: string
+                    example: 40 ft
+                    description: Size of the equipment.
+                  status:
+                    type: string
+                    example: N/A
+                    description: Current status of the equipment.
+            arriving:
+              type: object
+              description: Location where the freight arrives.
+              properties:
+                name:
+                  type: string
+                  example: APMT
+                  description: Name of the arrival location.
+                address:
+                  type: string
+                  example: 2500 Navy Way San Pedro CA 90731 USA
+                  description: Full address of the arrival location.
+            delivering:
+              type: object
+              description: Final delivery location for the freight.
+              properties:
+                name:
+                  type: string
+                  example: Cargomatic Inc.
+                  description: Name of the delivery location.
+                address:
+                  type: string
+                  example: 211 E Ocean Blvd Long Beach CA 90802
+                  description: Full address of the delivery location.
+            hazmat_class:
+              type: string
+              example: N/A
+              description: Hazardous-material class of the freight, or `N/A` if not hazmat.
+            hazmat_packaging_group:
+              type: string
+              example: N/A
+              description: Hazardous-material packaging group, or `N/A` if not hazmat.
+
+    OfferRequest:
+      type: object
+      required:
+      - action
+      - shipment
+      properties:
+        action:
+          type: string
+          example: add
+          description: Operation to perform on the shipment. One of `add`, `update`, or `cancel`.
+        shipment:
+          type: object
+          description: The shipment/offer to create or modify.
+          required:
+            - shipment_type
+            - shipper
+            - reference_numbers
+            - stops
+            - loads
+            - accessorials
+            - weight
+            - notes
+          properties:
+            reference_numbers:
+              type: array
+              description: Reference numbers for the shipment. Mark one as `primary` to use it as the main reference.
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: My Primary Reference
+                    description: Identifier for the reference number.
+                  primary:
+                    type: boolean
+                    description: Whether this is the shipment's primary reference number.
+                  value:
+                    type: string
+                    example: cargomatic123
+                    description: Value of the reference number.
+            shipment_type:
+              type: string
+              example: shorthaul
+              description: Type of shipment, e.g. `shorthaul` or `drayage`.
+            shipper:
+              type: string
+              example: 62879ea006bfa2d915861ba6
+              description: ID of the shipper the offer is created for.
+
+            stops:
+              type: array
+              description: Ordered list of pickup and delivery stops for the shipment.
+              items:
+                type: object
+                required:
+                  - sequence
+                  - location
+                  - action
+                  - window_start
+                  - window_end
+                properties:
+                  sequence:
+                    type: integer
+                    format: int32
+                    example: 1
+                    description: Position of this stop within the shipment, starting at 1.
+                  location:
+                    type: object
+                    description: Where this stop takes place.
+                    required:
+                      - name
+                      - address
+                    properties:
+                      name:
+                        type: string
+                        example: Cargomatic HQ
+                        description: Name of the location.
+                      address:
+                        type: string
+                        example: 211 E. Ocean Blvd Long Beach CA 90802
+                        description: Street address of the location.
+                      suite_or_apt:
+                        type: string
+                        example: Suite 350
+                        description: Suite or apartment number, if applicable.
+                  loads:
+                    type: array
+                    description: Loads picked up or delivered at this stop. Each entry describes a unit's type, quantity, dimensions, and weight.
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: pallets
+                        quantity:
+                          type: integer
+                          format: int32
+                          example: 5
+                        width:
+                          type: integer
+                          format: int32
+                          example: 40
+                        height:
+                          type: integer
+                          format: int32
+                          example: 48
+                        length:
+                          type: integer
+                          format: int32
+                          example: 40
+                        weight:
+                          type: integer
+                          format: int32
+                          example: 2500
+                  contacts:
+                    type: array
+                    description: Contacts for this stop.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: support
+                          description: Contact name.
+                        email:
+                          type: string
+                          example: support@cargomatic.com
+                          description: Contact email address.
+                        phone:
+                          type: string
+                          example: 555-555-5555
+                          description: Contact phone number.
+                  action:
+                    type: string
+                    example: pickup
+                    description: Action performed at this stop, either `pickup` or `delivery`.
+                  window_start:
+                    type: string
+                    format: date-time
+                    example: 2022-03-31T18:00:00.000Z
+                    description: Start of the pickup/delivery window for this stop.
+                  window_end:
+                    type: string
+                    format: date-time
+                    example: 2022-03-31T21:00:00.000Z
+                    description: End of the pickup/delivery window for this stop.
+                  reference_numbers:
+                    type: array
+                    description: Reference numbers specific to this stop.
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: My Stop Reference Number
+                          description: Identifier for the reference number.
+                        value:
+                          type: string
+                          example: cargomatic123456
+                          description: Value of the reference number.
+            loads:
+              type: array
+              description: Shipment-level loads, used when loads are not broken out per stop.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallets
+                  quantity:
+                    type: integer
+                    format: int32
+                    example: 5
+                  width:
+                    type: integer
+                    format: int32
+                    example: 40
+                  height:
+                    type: integer
+                    format: int32
+                    example: 48
+                  length:
+                    type: integer
+                    format: int32
+                    example: 40
+                  weight:
+                    type: integer
+                    format: int32
+                    example: 2500
+            accessorials:
+              type: array
+              description: Optional accessorial services requested for the shipment.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallet_jack
+                    description: Type of accessorial service.
+            weight:
+              type: integer
+              format: int32
+              example: 2500
+              description: Total weight of the shipment, in pounds.
+            notes:
+              type: string
+              example: These are my notes!
+              description: Free-text notes about the shipment.
+
+    OfferResponse:
+      type: object
+      properties:
+        action:
+          type: string
+          example: add
+        shipment:
+          type: object
+          properties:
+            shipment_type:
+              type: string
+              example: shorthaul
+            shipper:
+              type: string
+              example: shipper@cargomatic.com
+            reference_numbers:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: My Primary Reference
+                  value:
+                    type: string
+                    example: cargomatic123
+                  primary:
+                    type: boolean
+            stops:
+              type: array
+              items:
+                type: object
+                properties:
+                  sequence:
+                    type: integer
+                    format: int32
+                    example: 1
+                  location:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Cargomatic HQ
+                      address:
+                        type: string
+                        example: 211 E. Ocean Blvd Long Beach CA 90802
+                      suite_or_apt:
+                        type: string
+                        example: Suite 350
+                  loads:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: pallets
+                        quantity:
+                          type: integer
+                          format: int32
+                          example: 5
+                        width:
+                          type: integer
+                          format: int32
+                          example: 40
+                        height:
+                          type: integer
+                          format: int32
+                          example: 48
+                        length:
+                          type: integer
+                          format: int32
+                          example: 40
+                        weight:
+                          type: integer
+                          format: int32
+                          example: 2500
+                  contacts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: support
+                        email:
+                          type: string
+                          example: support@cargomatic.com
+                        phone:
+                          type: string
+                          example: 555-555-5555
+                  action:
+                    type: string
+                    example: pickup
+                  window_start:
+                    type: string
+                    format: date-time
+                    example: 2022-03-31T18:00:00.000Z
+                  window_end:
+                    type: string
+                    format: date-time
+                    example: 2022-03-31T21:00:00.000Z
+                  reference_numbers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: My Stop Reference Number
+                        value:
+                          type: string
+                          example: cargomatic123456
+            loads:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallets
+                  quantity:
+                    type: integer
+                    format: int32
+                    example: 5
+                  width:
+                    type: integer
+                    format: int32
+                    example: 40
+                  height:
+                    type: integer
+                    format: int32
+                    example: 48
+                  length:
+                    type: integer
+                    format: int32
+                    example: 40
+                  weight:
+                    type: integer
+                    format: int32
+                    example: 2500
+            accessorials:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: pallet_jack
+            weight:
+              type: integer
+              format: int32
+              example: 2500
+            notes:
+              type: string
+              example: These are my notes!
+
+    ShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        shipments:
+          type: array
+          items:
+            type: object
+            properties:
+              shipmentId:
+                type: string
+                example: 61f468826a139d5cfe58f0a2
+              shipmentReference:
+                type: string
+                example: TES-1296
+              status:
+                type: string
+                example: in_progress
+              stops:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    stopId:
+                      type: string
+                      example: 61f468806a139d5cfe58f098
+                    locationName:
+                      type: string
+                      example: "Walmart"
+                    locationAddress:
+                      type: string
+                      example: 228 Main St Venice CA 90291 USA
+                    windowStart:
+                      type: string
+                      format: date-time
+                      example: 2022-03-28T19:00:00.000Z
+                    windowEnd:
+                      type: string
+                      format: date-time
+                      example: 2022-03-28T23:00:00.000Z
+                    appointmentConfirmed:
+                      type: boolean
+                    complete:
+                      type: boolean
+                    off_site:
+                      type: boolean
+                    sequence:
+                      type: integer
+                      format: int32
+                      example: 2
+              carrierId:
+                type: string
+                example: 5eab53242668e30019713c87
+              driver:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: 5c7df5fd5b65270029523f74
+                  _type:
+                    type: string
+                    example: Driver
+                  first_name:
+                    type: string
+                    example: testGPSDriverFirst
+                  last_name:
+                    type: string
+                    example: testGPSDriverLast 1
+              distance_in_miles:
+                type: string
+                format: nullable
+
+    UpdateShipmentRequest:
+      type: object
+      required:
+        - shipmentReference
+        - stopId
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28T19:00:00.000Z
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28T23:00:00.000Z
+        appointmentConfirmed:
+          type: boolean
+
+    UpdateShipmentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        stop:
+          type: object
+          properties:
+            stopId:
+              type: string
+              example: 64ac4a958bea65dbe619482b
+            status:
+              type: string
+              example: unstarted
+            locationName:
+              type: string
+              example: 21660 Copley
+            locationAddress:
+              type: string
+              example: 21660 Copley Dr Diamond Bar CA 91765 USA
+            windowStart:
+              type: string
+              format: date-time
+              example: 2022-07-14T19:00:00.000Z
+            windowEnd:
+              type: string
+              format: date-time
+              example: 2022-07-14T23:00:00.000Z
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            off_site:
+              type: boolean
+            sequence:
+              type: integer
+              format: int32
+              example: 2
+
+    AcceptShipmentRequest:
+      type: object
+      required:
+        - shipmentReference
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+          description: Reference of the shipment to accept.
+
+    AcceptShipmentResponse:
+      type: object
+      properties:
+        shipmentId:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        status:
+          type: string
+          example: created
+        carrierId:
+          type: string
+          example: 60b7a951c2b827f9f5179454
+        stops:
+          type: array
+          items:
+            type: object
+            properties:
+              stopId:
+                type: string
+                example: 60b7a951c2b827f9f517945c
+              status:
+                type: string
+                example: unstarted
+              locationName:
+                type: string
+                example: Cargomatic HQ
+              locationAddress:
+                type: string
+                example: 211 E. Ocean Blvd Long Beach CA 90802
+              windowStart:
+                type: string
+                format: date-time
+                example: 2021-06-02T15:52:49.258Z
+              windowEnd:
+                type: string
+                format: date-time
+                example: 2021-06-02T19:52:49.258Z
+              appointmentConfirmed:
+                type: boolean
+              complete:
+                type: boolean
+              missingDocs:
+                type: boolean
+
+    CreateDriverRequest:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - username
+        - email
+        - password
+        - cdl_number
+        - receive_offers
+        - phone
+        - carrier
+      properties:
+        first_name:
+          type: string
+          example: john
+        last_name:
+          type: string
+          example: doe
+        username:
+          type: string
+          example: fakedriver123
+        email:
+          type: string
+          example: fake@gmail.com
+        password:
+          type: string
+          example: TestDriver1234
+        cdl_number:
+          type: string
+          example: 33333333
+        receive_offers:
+          type: boolean
+        phone:
+          type: string
+          example: 5555555555
+        carrier:
+          type: string
+          example: Cargomatic (demo)
+
+    CreateDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+
+    AssignDriverRequest:
+      type: object
+      required:
+        - offer_id
+        - driver_id
+      properties:
+        offer_id:
+          type: string
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
+          type: string
+          example: 64ac71ddb111de5422ff31ac
+
+    AssignDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
+
+    AddStopRequest:
+      type: object
+      required:
+        - shipmentReference
+        - newStops
+      properties:
+        shipmentReference:
+          type: string
+          example: "ABC-123"
+        newStops:
+          type: array
+          items:
+            type: object
+            required:
+              - sequence
+              - address
+              - action
+              - name
+              - windowStart
+              - windowEnd
+            properties:
+              sequence:
+                type: number
+                example: 1
+              address:
+                type: string
+                example: "1550 Cota Ave, Long Beach, CA 90813, USA"
+              action:
+                type: string
+                example: "pickup"
+              name:
+                type: string
+                example: "Atlas Marine"
+              windowStart:
+                type: string
+                example: "2023-01-01T21:00:00.000Z"
+              windowEnd:
+                type: string
+                example: "2024-01-01T21:00:00.000Z"
+              fullTruckload:
+                type: boolean
+                example: false
+              isEmptyContainer:
+                type: boolean
+                example: true
+              loads:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "pallets"
+                    quantity:
+                      type: number
+                    width:
+                      type: number
+                    length:
+                      type: number
+
+    AddStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        shipment:
+          type: object
+          properties:
+            market:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "San Antonio"
+                code:
+                  type: string
+                  example: "SAT"
+            _id:
+              type: string
+            shipment_id:
+              type: string
+              example: "ABC-123"
+            stops:
+              type: array
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: stopID123
+                  action:
+                    type: string
+                    example: deliver
+                  full_truckload:
+                    type: boolean
+                    example: false
+                  location:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "1234567890z9310"
+                        address:
+                          type: string
+                          example: "211 E. Ocean Blvd, Suite 350, Long Beach, CA 90802, USA"
+                        street:
+                          type: string
+                          example: "211 E. Ocean Blvd"
+                        suite_or_apt:
+                          type: string
+                          example: "Suite 350"
+                        zipcode:
+                          type: string
+                          example: "90802"
+                        city:
+                          type: string
+                          example: "Long Beach"
+                        state:
+                          type: string
+                          example: "CA"
+                        lng:
+                          type: number
+                          example: -123.456789
+                        lat:
+                          type: number
+                          example: 37.1234567
+                  status:
+                    type: string
+                    example: "unstarted"
+                  shipment_type:
+                    type: string
+                    example: shorthaul
+                  sequence:
+                    type: number
+                    example: 2
+                  window_start:
+                    type: string
+                    example: 2023-07-24T23:30:00.000Z
+                  window_end:
+                    type: string
+                    example: 2023-07-24T23:30:00.000Z
+
+    ArriveAtStopRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: "ABC-123"
+        stopId:
+          type: string
+        status:
+          type: string
+          example: "arrived"
+        meta:
+          type: object
+          properties:
+            date:
+              type: string
+              example: "2023-07-20T16:51:11.736Z"
+      required:
+        - shipmentReference
+        - stopId
+        - status
+
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: "arrived"
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
+
+    CompleteStopRequest:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: 5ca39c2a0cb793001366c012
+        shipmentReference:
+          type: string
+          example: 'ABC-123'
+        meta:
+          type: object
+          description: >-
+            Must contain at least one of `containerId`, `trailerId`, `chassis`, or `files`.
+          properties:
+            chassis:
+              type: string
+            containerId:
+              type: string
+            trailerId:
+              type: string
+            date:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+      required:
+        - stopId
+        - shipmentReference
+        - meta
+
+    CompleteStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            stopId:
+              type: string
+            status:
+              type: string
+              example: "complete"
+            locationName:
+              type: string
+            locationAddress:
+              type: string
+            windowStart:
+              type: string
+              example: "2021-06-02T15:54:29.728Z"
+            windowEnd:
+              type: string
+              example: "2021-07-02T15:54:29.728Z"
+            appointmentConfirmed:
+              type: boolean
+            complete:
+              type: boolean
+            missingDocs:
+              type: boolean
+            documents:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+
+    UploadDocumentRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          entity:
+            type: string
+            example: "shipment"
+          entityId:
+            type: string
+            example: "123455678990"
+          referenceNumbers:
+            type: array 
+            items:
+              type: string
+              example: "REF_NUMBER" 
+          type:
+            type: string
+            example: "proof_of_delivery"
+          name:
+            type: string
+            example: "filename"
+          contentType:
+            type: string
+            example: "application/json"
+
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object 
+        properties:
+          originalFileName:
+            type: string
+            example: "filename"
+          presignedUrl:
+            type: string
+            example: "https://s3-url.com?key-signed-metadata"
+
+    GetDocumentRequest:
+      type: object
+      properties:
+        entity:
+          type: string
+          example: "shipment"
+        entityId:
+          type: string
+          example: "123455678990"
+        referenceNumbers:
+          type: array 
+          items:
+            type: string
+            example: "REF_NUMBER" 
+        types:
+          type: array
+          items:
+            type: string
+            example: "proof_of_delivery"
+
+    GetDocumentResponse:
+      type: object 
+      properties:
+        count:
+          type: number
+          example: 5
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "Proof of Delivery"
+              createdAt:
+                type: string
+                example: "2023-09-20T03:02:32.359Z"
+              signedUrl:
+                type: string
+                example: "https://s3-url-link-to-file.com/bucket?metadata-info"
+              type:
+                type: string
+                example: "proof_of_delivery"
+              status:
+                type: string
+                example: "UPLOADED"

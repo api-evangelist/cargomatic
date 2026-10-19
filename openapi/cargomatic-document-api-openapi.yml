@@ -1,7 +1,10 @@
 openapi: 3.2.0
 info:
   title: Cargomatic Public Document API
-  description: '## Welcome to the Cargomatic API!
+  description: '!Cargomatic
+
+
+    ## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
@@ -12,16 +15,13 @@ servers:
 - url: https://api-acceptance.cargomatic.com
 tags:
 - name: Document
+  description: Endpoints for creating and retrieving documents attached to an entity
 paths:
   /create-documents:
     post:
       operationId: createDocuments
-      summary: endpoint for uploading documents
-      description: '` Use this endpoint to create 1 or multiple document records within our system and use the response to
-
-        upload the actual files to our secure s3 buckets
-
-        `'
+      summary: Uploads documents
+      description: Use this endpoint to create one or more document records within our system. Use the presigned URLs returned in the response to upload the actual files to our secure S3 buckets.
       tags:
       - Document
       security:
@@ -34,7 +34,7 @@ paths:
               $ref: '#/components/schemas/UploadDocumentRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -54,8 +54,8 @@ paths:
   /get-documents:
     post:
       operationId: getDocuments
-      summary: Retrive document on a specified entity
-      description: '` Use this endpoint to retrive document links and metadata attached to specific entities `'
+      summary: Retrieves documents for a specified entity
+      description: Use this endpoint to retrieve document links and metadata attached to a specific entity.
       tags:
       - Document
       security:
@@ -68,7 +68,7 @@ paths:
               $ref: '#/components/schemas/GetDocumentRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -87,23 +87,56 @@ paths:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    GetDocumentRequest:
+    UploadDocumentRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          entity:
+            type: string
+            example: shipment
+          entityId:
+            type: string
+            example: '123455678990'
+          referenceNumbers:
+            type: array
+            items:
+              type: string
+              example: REF_NUMBER
+          type:
+            type: string
+            example: proof_of_delivery
+          name:
+            type: string
+            example: filename
+          contentType:
+            type: string
+            example: application/json
+    UploadDocumentResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          originalFileName:
+            type: string
+            example: filename
+          presignedUrl:
+            type: string
+            example: https://s3-url.com?key-signed-metadata
+    BadRequestResponse:
       type: object
       properties:
-        entity:
+        message:
           type: string
-          example: shipment
-        entityId:
+      example:
+        message: Invalid Request Body
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
           type: string
-          example: '123455678990'
-        referenceNumbers:
-          type: array
-          items:
-            type: string
-            example: REF_NUMBER
-        type:
-          type: string
-          example: proof_of_delivery
+      example:
+        message: Internal Server Error
     GetDocumentResponse:
       type: object
       properties:
@@ -130,56 +163,25 @@ components:
               status:
                 type: string
                 example: UPLOADED
-    BadRequestResponse:
+    GetDocumentRequest:
       type: object
       properties:
-        message:
+        entity:
           type: string
-      example:
-        message: Invalid Request Body
-    UploadDocumentRequest:
-      type: array
-      items:
-        type: object
-        properties:
-          entity:
+          example: shipment
+        entityId:
+          type: string
+          example: '123455678990'
+        referenceNumbers:
+          type: array
+          items:
             type: string
-            example: shipment
-          entityId:
-            type: string
-            example: '123455678990'
-          referenceNumbers:
-            type: array
-            items:
-              type: string
-              example: REF_NUMBER
-          type:
+            example: REF_NUMBER
+        types:
+          type: array
+          items:
             type: string
             example: proof_of_delivery
-          name:
-            type: string
-            example: filename
-          contentType:
-            type: string
-            example: application/json
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    UploadDocumentResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          originalFileName:
-            type: string
-            example: filename
-          presignedUrl:
-            type: string
-            example: https://s3-url.com?key-signed-metadata
   securitySchemes:
     bearerAuth:
       type: http

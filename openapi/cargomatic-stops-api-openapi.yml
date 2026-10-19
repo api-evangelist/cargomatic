@@ -1,7 +1,10 @@
 openapi: 3.2.0
 info:
   title: Cargomatic Public Stops API
-  description: '## Welcome to the Cargomatic API!
+  description: '!Cargomatic
+
+
+    ## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
@@ -31,7 +34,7 @@ paths:
               $ref: '#/components/schemas/CompleteStopRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -43,7 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: ''
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
@@ -67,7 +70,7 @@ paths:
               $ref: '#/components/schemas/ArriveAtStopRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -105,7 +108,7 @@ paths:
               $ref: '#/components/schemas/AddStopRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -207,6 +210,64 @@ components:
                   window_end:
                     type: string
                     example: 2023-07-24 23:30:00+00:00
+    ArriveAtStopRequest:
+      type: object
+      properties:
+        shipmentReference:
+          type: string
+          example: ABC-123
+        stopId:
+          type: string
+        status:
+          type: string
+          example: arrived
+        meta:
+          type: object
+          properties:
+            date:
+              type: string
+              example: '2023-07-20T16:51:11.736Z'
+      required:
+      - shipmentReference
+      - stopId
+      - status
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    CompleteStopRequest:
+      type: object
+      properties:
+        stopId:
+          type: string
+          example: 5ca39c2a0cb793001366c012
+        shipmentReference:
+          type: string
+          example: ABC-123
+        meta:
+          type: object
+          description: Must contain at least one of `containerId`, `trailerId`, `chassis`, or `files`.
+          properties:
+            chassis:
+              type: string
+            containerId:
+              type: string
+            trailerId:
+              type: string
+            date:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+                example: stop_info.txt
+      required:
+      - stopId
+      - shipmentReference
+      - meta
     CompleteStopResponse:
       type: object
       properties:
@@ -241,6 +302,33 @@ components:
               items:
                 type: string
                 example: stop_info.txt
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Invalid Request Body
+    ArriveAtStopResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            shipmentReference:
+              type: string
+            status:
+              type: string
+              example: arrived
+            stopId:
+              type: string
+            meta:
+              type: object
+              properties:
+                date:
+                  type: string
     AddStopRequest:
       type: object
       required:
@@ -300,89 +388,6 @@ components:
                       type: number
                     length:
                       type: number
-    BadRequestResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Invalid Request Body
-    CompleteStopRequest:
-      type: object
-      properties:
-        stopId:
-          type: string
-          example: 5ca39c2a0cb793001366c012
-        shipmentReference:
-          type: string
-          example: ABC-123
-        meta:
-          type: object
-          properties:
-            chassis:
-              type: string
-            containerId:
-              type: string
-            trailerId:
-              type: string
-            date:
-              type: string
-            files:
-              type: array
-              items:
-                type: string
-                example: stop_info.txt
-      required:
-      - stopId
-      - shipmentReference
-    ArriveAtStopRequest:
-      type: object
-      properties:
-        shipmentReference:
-          type: string
-          example: ABC-123
-        stopId:
-          type: string
-        status:
-          type: string
-          example: arrived
-        meta:
-          type: object
-          properties:
-            date:
-              type: string
-              example: '2023-07-20T16:51:11.736Z'
-      required:
-      - shipmentReference
-      - stopId
-      - status
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    ArriveAtStopResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            shipmentReference:
-              type: string
-            status:
-              type: string
-              example: arrived
-            stopId:
-              type: string
-            meta:
-              type: object
-              properties:
-                date:
-                  type: string
   securitySchemes:
     bearerAuth:
       type: http

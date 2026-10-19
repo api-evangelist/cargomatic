@@ -1,7 +1,10 @@
 openapi: 3.2.0
 info:
   title: Cargomatic Public Authorization API
-  description: '## Welcome to the Cargomatic API!
+  description: '!Cargomatic
+
+
+    ## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
@@ -29,7 +32,7 @@ paths:
               $ref: '#/components/schemas/AuthRequestBody'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -41,20 +44,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
     BadRequestResponse:
       type: object
       properties:
@@ -62,16 +58,13 @@ components:
           type: string
       example:
         message: Invalid Request Body
-    AuthResponse:
+    InternalServerErrorResponse:
       type: object
       properties:
-        success:
-          type: boolean
-        token:
+        message:
           type: string
       example:
-        success: true
-        token: '{token-value}'
+        message: Internal Server Error
     AuthRequestBody:
       type: object
       properties:
@@ -85,6 +78,16 @@ components:
       required:
       - username
       - password
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        token:
+          type: string
+      example:
+        success: true
+        token: '{token-value}'
   securitySchemes:
     bearerAuth:
       type: http

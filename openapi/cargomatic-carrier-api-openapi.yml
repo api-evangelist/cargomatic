@@ -1,7 +1,10 @@
 openapi: 3.2.0
 info:
   title: Cargomatic Public Carrier API
-  description: '## Welcome to the Cargomatic API!
+  description: '!Cargomatic
+
+
+    ## Welcome to the Cargomatic API!
 
     Our quoting, booking, and status APIs allow you to automate common workflows similar to features available within the Cargomatic portal.
 
@@ -30,7 +33,7 @@ paths:
               $ref: '#/components/schemas/UpdateShipmentRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -42,7 +45,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
@@ -51,6 +54,7 @@ paths:
     post:
       operationId: acceptShipment
       summary: Accepts a Shipment
+      description: Accepts an offered shipment on behalf of the authenticated carrier. The `shipmentReference` of the shipment to accept is required.
       tags:
       - Carrier
       security:
@@ -63,7 +67,7 @@ paths:
               $ref: '#/components/schemas/AcceptShipmentRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -75,21 +79,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
-  /carrier/{carrierid}/driver:
+  /carrier/{carrierId}/driver:
     post:
       operationId: createDriver
       summary: Creates a new Driver
+      description: Creates a new driver under the carrier identified by the `carrierId` path parameter.
       tags:
       - Carrier
       security:
       - bearerAuth: []
       parameters:
-      - name: carrierid
+      - name: carrierId
         in: path
         description: Id of the carrier
         required: true
@@ -103,7 +108,7 @@ paths:
               $ref: '#/components/schemas/CreateDriverRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -115,15 +120,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
   /shipment/assign:
-    post:
+    put:
       operationId: assignDriver
-      summary: Assigna a Driver to a Shipment
+      summary: Assigns a driver to a shipment
+      description: Assigns a driver to an accepted offer. Both the `offer_id` and the `driver_id` are required.
       tags:
       - Carrier
       security:
@@ -136,7 +142,7 @@ paths:
               $ref: '#/components/schemas/AssignDriverRequest'
       responses:
         '200':
-          description: 'Status Code 200:  Successful Response - the request was successful!'
+          description: 'Status Code 200: Successful Response - the request was successful!'
           content:
             application/json:
               schema:
@@ -148,35 +154,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/BadRequestResponse'
         '500':
-          description: 'StatusCode 500: Internal Server Error Response - there''s a problem with the Public API service'
+          description: 'Status Code 500: Internal Server Error Response - there''s a problem with the Public API service'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 components:
   schemas:
-    CreateDriverResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: object
-          properties:
-            driverId:
-              type: string
-              example: 64ac71ddb111de5422ff31ac
-    AssignDriverRequest:
-      type: object
-      properties:
-        offer_id:
-          type: string
-          example: 64ad7c876c1af2d3fd81230d
-        driver_id:
-          type: string
-          example: 64ac71ddb111de5422ff31ac
     CreateDriverRequest:
       type: object
+      required:
+      - first_name
+      - last_name
+      - username
+      - email
+      - password
+      - cdl_number
+      - receive_offers
+      - phone
+      - carrier
       properties:
         first_name:
           type: string
@@ -244,41 +240,57 @@ components:
               type: integer
               format: int32
               example: 2
-    BadRequestResponse:
+    AssignDriverRequest:
       type: object
+      required:
+      - offer_id
+      - driver_id
       properties:
-        message:
+        offer_id:
           type: string
-      example:
-        message: Invalid Request Body
-    AcceptShipmentRequest:
-      type: object
-      properties:
-        shipmentReference:
+          example: 64ad7c876c1af2d3fd81230d
+        driver_id:
           type: string
-          example: foo
-    InternalServerErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      example:
-        message: Internal Server Error
-    AssignDriverResponse:
+          example: 64ac71ddb111de5422ff31ac
+    CreateDriverResponse:
       type: object
       properties:
         success:
           type: boolean
-        jobs:
-          type: array
-          items:
-            type: string
+        data:
+          type: object
+          properties:
+            driverId:
+              type: string
+              example: 64ac71ddb111de5422ff31ac
+    UpdateShipmentRequest:
+      type: object
+      required:
+      - shipmentReference
+      - stopId
+      properties:
+        shipmentReference:
+          type: string
+          example: 61f468826a139d5cfe58f0a2
+        stopId:
+          type: string
+          example: 61f468806a139d5cfe58f09d
+        windowStart:
+          type: string
+          format: date-time
+          example: 2022-03-28 19:00:00+00:00
+        windowEnd:
+          type: string
+          format: date-time
+          example: 2022-03-28 23:00:00+00:00
+        appointmentConfirmed:
+          type: boolean
     AcceptShipmentResponse:
       type: object
       properties:
         shipmentId:
           type: string
-          example: foop
+          example: 61f468826a139d5cfe58f0a2
         status:
           type: string
           example: created
@@ -316,25 +328,38 @@ components:
                 type: boolean
               missingDocs:
                 type: boolean
-    UpdateShipmentRequest:
+    InternalServerErrorResponse:
       type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Internal Server Error
+    AssignDriverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        jobs:
+          type: array
+          items:
+            type: string
+    AcceptShipmentRequest:
+      type: object
+      required:
+      - shipmentReference
       properties:
         shipmentReference:
           type: string
-          example: 61f468826a139d5cfe58f0a2
-        stopId:
+          example: ABC-123
+          description: Reference of the shipment to accept.
+    BadRequestResponse:
+      type: object
+      properties:
+        message:
           type: string
-          example: 61f468806a139d5cfe58f09d
-        windowStart:
-          type: string
-          format: date-time
-          example: 2022-03-28 19:00:00+00:00
-        windowEnd:
-          type: string
-          format: date-time
-          example: 2022-03-28 23:00:00+00:00
-        appointmentConfirmed:
-          type: boolean
+      example:
+        message: Invalid Request Body
   securitySchemes:
     bearerAuth:
       type: http
