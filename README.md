@@ -64,6 +64,118 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cargomatic is a company surfaced as a portfolio company of canaan-partners, softbank-vision-fund and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Cargomatic is a technology-enabled marketplace for local freight and drayage that connects shippers with a network of more than 35,000 professional truck drivers across the top 20 ports in the continental United States. Its platform automates quoting, booking, dispatch, tracking, and document exchange for drayage, intermodal, less-than-truckload (LTL), full-truckload (FTL), and white-glove final-mile delivery. Cargomatic exposes a public REST API (the Cargomatic Public API) so shippers and carriers can automate the same quoting, order-creation, shipment-status, stop-management, driver-assignment, and document workflows available in the Cargomatic portal, authenticating with JWT bearer tokens issued from an authentication endpoint. The company is headquartered in Long Beach, California and is backed by Canaan Partners and the SoftBank Vision Fund.
 
-Backed by: canaan-partners, softbank-vision-fund
+**Areas:** Company · Logistics · Freight · Drayage · Transportation · Supply Chain · Shipping · Trucking · Marketplace · Intermodal
+
+## Cargomatic on APIs.io
+
+Everything profiled for Cargomatic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cargomatic/](https://apis.io/providers/cargomatic/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [Cargomatic Authorization API](https://apis.io/apis/cargomatic/cargomatic-authorization-api/) — Endpoints dealing with authenticating to the API
+- [Cargomatic Carrier API](https://apis.io/apis/cargomatic/cargomatic-carrier-api/) — Endpoints for Cargomatic Carriers and Drivers
+- [Cargomatic Document API](https://apis.io/apis/cargomatic/cargomatic-document-api/) — The Document API from Cargomatic — 2 operation(s) for document.
+- [Cargomatic Shipper API](https://apis.io/apis/cargomatic/cargomatic-shipper-api/) — Endpoints for Cargomatic Shippers
+- [Cargomatic Stops API](https://apis.io/apis/cargomatic/cargomatic-stops-api/) — Endpoints for managing shipment stops
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [cargomatic](https://apis.io/servers/cargomatic/cargomatic/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [Cargomatic Public Authorization API](https://apis.io/collections/cargomatic/open-cargomatic-authorization-api/)
+- [Cargomatic Public Authorization Carrier API](https://apis.io/collections/cargomatic/open-cargomatic-carrier-api/)
+- [Cargomatic Public Authorization Document API](https://apis.io/collections/cargomatic/open-cargomatic-document-api/)
+- [Cargomatic Public Authorization Shipper API](https://apis.io/collections/cargomatic/open-cargomatic-shipper-api/)
+- [Cargomatic Public Authorization Stops API](https://apis.io/collections/cargomatic/open-cargomatic-stops-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cargomatic Public Api Overlay](https://apis.io/overlays/cargomatic/cargomatic-public-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cargomatic Authentication](https://apis.io/security/cargomatic/cargomatic-authentication/)
+- [Cargomatic Domain Security](https://apis.io/security/cargomatic/cargomatic-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://cargomatic.com/)
+- [Documentation](https://api-docs.cargomatic.com/#/)
+- [API reference](https://api-docs.cargomatic.com/#/)
+- [Sign up](https://cargomatic.com/sign-up/)
+- [Support](https://cargomatic.com/support/)
+- [Blog](https://cargomatic.com/blog/)
+- [Terms of service](https://cargomatic.com/terms-of-service/)
+- [Privacy policy](https://cargomatic.com/privacy-policy/)
+- [GitHub](https://github.com/cargomatic)
+
+## API Evangelist rating
+
+**Kin Score 32.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 47.4 |
+| Contract governance | 4.5 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 25.6 |
+| Access clarity | 34.2 |
+
+**Agent readiness 22.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cargomatic/](https://apis.io/providers/cargomatic/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cargomatic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cargomatic/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
